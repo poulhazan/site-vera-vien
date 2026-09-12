@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import i18n from '../../data/i18n.json';
+import site from '../../data/site.json';
+
+const lang = 'fr';
+const t = (i18n as any)[lang];
+---
+<BaseLayout lang={lang} title={t.nav.contact}>
+  <section class="contact-wrap">
+    <div class="container center">
+      <div class="form-card">
+        <div class="masthead-rule kicker-row"><span>{t.contact.kicker}</span></div>
+        <h1>{t.contact.title}</h1>
+        <p class="handwritten">{t.contact.sub}</p>
+
+        <div class="divider"></div>
+        <p class="email">{site.email}</p>
+
+        <form class="contact-form" method="POST" action={`mailto:${site.email}`} enctype="text/plain">
+          <div class="row">
+            <label>{t.contact.name}<input type="text" name="name" placeholder={t.contact.namePh} required /></label>
+            <label>{t.contact.email}<input type="email" name="email" placeholder={t.contact.emailPh} required /></label>
+          </div>
+          <label>{t.contact.studio}<input type="text" name="studio" placeholder={t.contact.studioPh} /></label>
+          <label>{t.contact.message}<textarea name="message" placeholder={t.contact.messagePh} rows="4" required></textarea></label>
+          <div class="cta-row">
+            <button class="btn btn-primary" type="submit">{t.contact.send}</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="social-row">
+        <a class="btn btn-outline" href={site.social.artstation} target="_blank" rel="noopener">ArtStation ↗</a>
+        <a class="btn btn-outline" href={site.social.instagram} target="_blank" rel="noopener">Instagram ↗</a>
+        <a class="btn btn-outline" href={site.social.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="btn btn-outline" href={site.social.facebook} target="_blank" rel="noopener">Facebook ↗</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-wrap { padding: 64px 24px; }
+  .center { display: flex; flex-direction: column; align-items: center; }
+  .form-card { width: 100%; max-width: 640px; padding: 40px 48px 46px; background: var(--chip-bg); border-radius: 4px; }
+  .kicker-row { font: 700 10.5px 'Work Sans', sans-serif; color: var(--brown-muted); letter-spacing: .16em; text-transform: uppercase; }
+  h1 { font-size: 38px; line-height: 1.2; margin-top: 16px; }
+  .handwritten { font-family: 'Fraunces', serif; font-optical-sizing: auto; font-weight: 500; font-style: italic; font-size: 20px; color: var(--orange-text); margin-top: 10px; }
+  .divider { height: 1px; background: var(--divider); margin: 22px 0; }
+  .email { font: 600 20px 'Work Sans', sans-serif; color: var(--ink); }
+  .contact-form { display: flex; flex-direction: column; gap: 16px; margin-top: 22px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  label { display: flex; flex-direction: column; gap: 5px; font: 700 10.5px 'Work Sans', sans-serif; color: var(--brown-muted); letter-spacing: .1em; text-transform: uppercase; }
+  input, textarea { border: 0; border-bottom: 1.5px solid var(--rule); background: transparent; padding: 8px 2px; font: 400 15px Georgia, serif; color: var(--brown-soft); }
+  input:focus-visible, textarea:focus-visible { outline: none; border-bottom: 2px solid var(--ink); }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+  .social-row { display: flex; flex-wrap: nowrap; gap: 12px; margin-top: 24px; width: 100%; max-width: 640px; justify-content: center; }
+  @media (max-width: 560px) { .social-row { flex-wrap: wrap; } }
+  button.btn { font-family: 'Work Sans', sans-serif; }
+  @media (max-width: 560px) { .row { grid-template-columns: 1fr; } .form-card { padding: 28px 26px 32px; } }
+</style>

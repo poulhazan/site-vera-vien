@@ -1,0 +1,289 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import i18n from '../../data/i18n.json';
+
+const lang = 'en';
+const t = (i18n as any)[lang];
+---
+<BaseLayout lang={lang} title={t.nav.sketchbook}>
+  <section class="stage">
+    <span class="hint">{t.sketchbook.hint}</span>
+    <button class="nav-arrow left" id="prev" aria-label="Previous">‹</button>
+    <button class="nav-arrow right" id="next" aria-label="Next">›</button>
+
+    <img class="desk-prop prop-mug" src="/assets/images/textures/desk-mug.png" alt="" />
+    <img class="desk-prop prop-brushcup" src="/assets/images/textures/desk-brushcup.png" alt="" />
+    <img class="desk-prop prop-pastels" src="/assets/images/textures/desk-pastels.png" alt="" />
+    <img class="desk-prop prop-cloth" src="/assets/images/textures/desk-cloth.png" alt="" />
+
+    <div class="notebook" id="notebook">
+      <div class="corner tl"></div>
+      <div class="corner br"></div>
+      <div class="pages" id="pages">
+        <div class="spine" id="spine"></div>
+        <div class="spread-full" id="spread-full"></div>
+        <div class="page-side left" id="page-left"></div>
+        <div class="page-side right" id="page-right"></div>
+      </div>
+      <div class="page-label" id="page-label"></div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .stage {
+    position: relative;
+    min-height: calc(100vh - 73px);
+    background-image: url('/assets/images/textures/wood-teak.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 40px 20px;
+  }
+  .hint { position: absolute; top: 14px; right: 32px; font: 600 12px 'Work Sans', sans-serif; color: #F5DEB8; letter-spacing: .08em; text-transform: uppercase; z-index: 5; }
+  .nav-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 52px; height: 52px; border-radius: 50%;
+    background: rgba(0,0,0,.28); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: #FBF3E4; font-size: 24px; z-index: 5;
+  }
+  .nav-arrow:hover { background: rgba(0,0,0,.42); }
+  .nav-arrow.left { left: 24px; }
+  .nav-arrow.right { right: 24px; }
+  .nav-arrow.hidden { display: none; }
+
+  .desk-prop { position: absolute; z-index: 2; pointer-events: none; filter: drop-shadow(0 26px 22px rgba(0,0,0,.6)); }
+  .prop-pastels { top: -16%; left: -10%; width: 680px; transform: rotate(45deg); }
+  .prop-brushcup { top: -14%; right: -3%; width: 400px; transform: rotate(11deg); }
+  .prop-mug { bottom: 6%; left: 3%; width: 420px; transform: rotate(-9deg); }
+  .prop-cloth { bottom: 3%; right: -8%; width: 600px; transform: rotate(-28deg); }
+  @media (max-width: 1100px) { .desk-prop { display: none; } }
+
+  .notebook {
+    position: relative;
+    width: 78%; max-width: 1400px; aspect-ratio: 1352/840;
+    background-image: url('/assets/images/textures/notebook-open.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    border-bottom-left-radius: 28px;
+    filter: drop-shadow(0 40px 70px rgba(0,0,0,.55));
+    box-sizing: border-box;
+  }
+  .notebook::before {
+    content: '';
+    position: absolute;
+    left: 4%; right: 4%; bottom: -26px;
+    height: 46px;
+    background: radial-gradient(ellipse, rgba(0,0,0,.55), rgba(0,0,0,0) 72%);
+    filter: blur(10px);
+    z-index: -1;
+  }
+  .corner { display: none; }
+
+  .pages {
+    position: absolute; top: 4.2%; left: 7.1%; right: 8.1%; bottom: 4.7%;
+    display: grid; grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+    border-radius: 22px;
+    animation: fadeIn .28s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .spine {
+    position: absolute; top: 0; bottom: 0; left: 50%; width: 90px; margin-left: -45px;
+    z-index: 3; pointer-events: none;
+    background: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(20,10,4,.22) 42%, rgba(20,10,4,.30) 50%, rgba(20,10,4,.22) 58%, rgba(0,0,0,0) 100%);
+  }
+  .spread-full { position: absolute; inset: 0; z-index: 1; display: none; background: #e8dcc4; }
+  .spread-full.active { display: block; }
+  .spread-full img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .page-side { position: relative; padding: 34px; }
+  .page-side.right.hidden { display: none; }
+
+  .sketch { position: absolute; background: #fffef9; padding: 8px 8px 10px; box-shadow: 0 10px 18px rgba(15,7,3,.28); }
+  .sketch.sketch-full { inset: 0; padding: 0; background: transparent; box-shadow: none; transform: none; }
+  .sketch.sketch-band { left: -34px !important; width: calc(100% + 68px) !important; padding: 0; background: transparent; box-shadow: none; transform: none; }
+  .sketch.sketch-erased { background: transparent; padding: 0; box-shadow: none; }
+  .sketch.sketch-erased img { width: 100%; height: auto; display: block; }
+  .sketch-full img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sketch img { display: block; width: 100%; height: calc(100% - 0px); object-fit: cover; }
+  .sketch .tape { position: absolute; top: -10px; left: 50%; width: 70px; height: 22px; margin-left: -35px; background: rgba(238,222,190,.7); box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+  .sketch .caption { font-family: 'Caveat', cursive; font-size: 16px; color: #5C4028; margin-top: 6px; text-align: center; }
+
+  .page-label { position: absolute; bottom: -34px; left: 6.51%; right: 7.54%; display: flex; justify-content: center; font: 600 19px 'Work Sans', sans-serif; color: #F5DEB8; letter-spacing: .05em; white-space: nowrap; }
+  .page-label .num-left { flex: 1 1 0; text-align: right; }
+  .page-label .num-right { flex: 1 1 0; text-align: left; }
+  .page-label .sep { flex: 0 0 auto; padding: 0 6px; }
+
+
+  @media (max-width: 720px) {
+    .notebook { width: 94%; max-width: 640px; }
+    .hint { display: none; }
+    .spine { display: none; }
+  }
+</style>
+
+<script define:vars={{ lang }}>
+
+  const spreads = [
+    { pages: [2, 3],
+      left: [
+        { band: 'top', pos: 'center top', fit: 'contain', offsetY: -30, blend: true, brightness: 1.45, img: '/assets/images/sketchbook/props-carnet-003-1.png' },
+        { band: 'bottom', pos: 'center top', fit: 'contain', offsetY: -110, blend: true, img: '/assets/images/sketchbook/props-carnet-003-2.png' },
+      ],
+      right: [
+        { full: true, pos: 'left center', fit: 'contain', zoom: 1.5, offsetX: -60, blend: true, img: '/assets/images/sketchbook/props-carnet-003-3.png' },
+      ] },
+    { pages: [4, 5],
+      spreadFull: { caption: 'figure study', pos: 'center 30%', img: '/assets/images/sketchbook/sketch-spread45f-page.png' } },
+    { pages: [6, 7],
+      left: [
+        { full: true, caption: 'portrait study', pos: 'center 12%', img: '/assets/images/sketchbook/sketch-01-page.png' },
+      ],
+      right: [
+        { full: true, caption: 'figure study', pos: 'center 15%', img: '/assets/images/sketchbook/sketch-10b-page.png' },
+      ] },
+    { pages: [8, 9],
+      left: [
+        { full: true, caption: 'live model', pos: 'center', fit: 'contain', blend: true, img: '/assets/images/sketchbook/sketch-18.png' },
+      ],
+      right: [
+        { full: true, caption: 'live model', pos: 'center', fit: 'contain', blend: true, img: '/assets/images/sketchbook/sketch-19.png' },
+      ] },
+  ];
+
+  const flatPages = [];
+  spreads.forEach((sp) => {
+    if (sp.spreadFull) {
+      const left = { full: true, pos: 'left center', caption: sp.spreadFull.caption, img: sp.spreadFull.img };
+      const right = { full: true, pos: 'right center', caption: sp.spreadFull.caption, img: sp.spreadFull.img };
+      flatPages.push({ items: [left], page: sp.pages[0] });
+      flatPages.push({ items: [right], page: sp.pages[1] });
+    } else {
+      flatPages.push({ items: sp.left, page: sp.pages[0] });
+      flatPages.push({ items: sp.right, page: sp.pages[1] });
+    }
+  });
+
+  let spreadIndex = 0;
+  let mobilePage = 0;
+  let isMobile = window.innerWidth < 720;
+
+  try {
+    const savedSpread = parseInt(localStorage.getItem('vv_sketch_spread'), 10);
+    const savedPage = parseInt(localStorage.getItem('vv_sketch_page'), 10);
+    if (!isNaN(savedSpread)) spreadIndex = Math.min(Math.max(savedSpread, 0), spreads.length - 1);
+    if (!isNaN(savedPage)) mobilePage = Math.min(Math.max(savedPage, 0), flatPages.length - 1);
+  } catch (e) {}
+
+  const leftEl = document.getElementById('page-left');
+  const rightEl = document.getElementById('page-right');
+  const spreadFullEl = document.getElementById('spread-full');
+  const labelEl = document.getElementById('page-label');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+
+  function sketchHTML(it) {
+    if (it.erased) {
+      return `<div class="sketch sketch-erased" style="top:${it.top};left:${it.left};width:${it.w};transform:rotate(${it.rot}deg)" data-src="${it.img}">
+        <img src="${it.img}" style="width:100%;height:auto;display:block" alt="${it.caption || 'sketch'}" />
+      </div>`;
+    }
+    if (it.full) {
+      const translate = (it.offsetX || it.offsetY) ? `translate(${it.offsetX || 0}px, ${it.offsetY || 0}px) ` : '';
+      const scale = it.zoom ? `scale(${it.zoom})` : '';
+      const transform = (translate || scale) ? `transform:${translate}${scale};` : '';
+      const fit = it.fit || 'cover';
+      const blendStyle = it.blend ? `mix-blend-mode:multiply;filter:contrast(1.15) brightness(1.18) sepia(.06);` : '';
+      return `<div class="sketch sketch-full" data-src="${it.img}">
+        <img src="${it.img}" style="width:100%;height:100%;object-fit:${fit};display:block;object-position:${it.pos || 'center'};${transform}${blendStyle}" alt="${it.caption || 'sketch'}" />
+      </div>`;
+    }
+    if (it.band) {
+      const top = it.band === 'top' ? '0' : '50%';
+      const fit = it.fit || 'cover';
+      const translate = (it.offsetX || it.offsetY) ? `translate(${it.offsetX || 0}px, ${it.offsetY || 0}px) ` : '';
+      const scale = it.zoom ? `scale(${it.zoom})` : '';
+      const transform = (translate || scale) ? `transform:${translate}${scale};` : '';
+      const brightnessVal = it.brightness || 1.18;
+      const blendStyle = it.blend ? `mix-blend-mode:multiply;filter:contrast(1.15) brightness(${brightnessVal}) sepia(.06);` : '';
+      return `<div class="sketch sketch-band" style="top:${top};left:0;width:100%;height:50%" data-src="${it.img}">
+        <img src="${it.img}" style="width:100%;height:100%;object-fit:${fit};display:block;object-position:${it.pos || 'center'};${transform}${blendStyle}" alt="${it.caption || 'sketch'}" />
+      </div>`;
+    }
+    return `<div class="sketch" style="top:${it.top}px;left:${it.left}px;width:${it.w}px;transform:rotate(${it.rot}deg)" data-src="${it.img}">
+      ${it.tape ? '<div class="tape"></div>' : ''}
+      <img src="${it.img}" style="width:100%;height:${it.h}px;object-fit:cover;display:block;object-position:${it.pos || 'center'}" alt="${it.caption || 'sketch'}" />
+      ${it.caption ? `<div class="caption">${it.caption}</div>` : ''}
+    </div>`;
+  }
+
+  function render() {
+    if (isMobile) {
+      const pg = flatPages[mobilePage];
+      leftEl.innerHTML = pg.items.map(sketchHTML).join('');
+      rightEl.classList.add('hidden');
+      rightEl.innerHTML = '';
+      labelEl.textContent = String(pg.page);
+    } else {
+      const spread = spreads[spreadIndex];
+      if (spread.spreadFull) {
+        leftEl.innerHTML = '';
+        rightEl.classList.remove('hidden');
+        rightEl.innerHTML = '';
+        spreadFullEl.classList.add('active');
+        spreadFullEl.dataset.src = spread.spreadFull.img;
+        spreadFullEl.innerHTML = `<img src="${spread.spreadFull.img}" style="width:100%;height:100%;object-fit:cover;display:block;object-position:${spread.spreadFull.pos || 'center'}" alt="${spread.spreadFull.caption || 'sketch'}" />`;
+      } else {
+        spreadFullEl.classList.remove('active');
+        spreadFullEl.innerHTML = '';
+        leftEl.innerHTML = spread.left.map(sketchHTML).join('');
+        rightEl.classList.remove('hidden');
+        rightEl.innerHTML = spread.right.map(sketchHTML).join('');
+      }
+      labelEl.innerHTML = `<span class="num-left">${spread.pages[0]}</span><span class="sep">—</span><span class="num-right">${spread.pages[1]}</span>`;
+    }
+    const atStart = isMobile ? mobilePage <= 0 : spreadIndex <= 0;
+    const atEnd = isMobile ? mobilePage >= flatPages.length - 1 : spreadIndex >= spreads.length - 1;
+    prevBtn.classList.toggle('hidden', atStart);
+    nextBtn.classList.toggle('hidden', atEnd);
+  }
+
+  function persist() {
+    try {
+      if (isMobile) localStorage.setItem('vv_sketch_page', String(mobilePage));
+      else localStorage.setItem('vv_sketch_spread', String(spreadIndex));
+    } catch (e) {}
+  }
+
+  function next() {
+    if (isMobile) mobilePage = Math.min(mobilePage + 1, flatPages.length - 1);
+    else spreadIndex = Math.min(spreadIndex + 1, spreads.length - 1);
+    persist();
+    render();
+  }
+  function prev() {
+    if (isMobile) mobilePage = Math.max(mobilePage - 1, 0);
+    else spreadIndex = Math.max(spreadIndex - 1, 0);
+    persist();
+    render();
+  }
+
+  document.getElementById('next').addEventListener('click', next);
+  document.getElementById('prev').addEventListener('click', prev);
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') next();
+    if (e.key === 'ArrowLeft') prev();
+  });
+
+  window.addEventListener('resize', () => {
+    const nowMobile = window.innerWidth < 720;
+    if (nowMobile !== isMobile) { isMobile = nowMobile; render(); }
+  });
+
+  render();
+</script>

@@ -1,0 +1,49 @@
+{
+    "piny.project_settings": {
+        "open-pages": [
+            "pinyfakepage.html"
+        ],
+        "component-settings": {
+            "src/pages/index.astro:::index": {
+                "route": "/"
+            }
+        },
+        "app-routes": {
+            "routes": [
+                "/",
+                "/en",
+                "/en/",
+                "/en/about",
+                "/en/contact",
+                "/en/demo-reel",
+                "/en/portfolio",
+                "/en/resume",
+                "/en/sketchbook",
+                "/fr",
+                "/fr/about",
+                "/fr/contact",
+                "/fr/demo-reel",
+                "/fr/portfolio",
+                "/fr/resume",
+                "/fr/sketchbook"
+            ],
+            "current_route": "/en/"
+        },
+        "tw-external-config": {
+            "external_source_url": null
+        },
+        "source-folders": null,
+        "preview-url": "http://localhost:4321",
+        "ai-project-brief": null,
+        "urls": {
+            "pinyfakepage.html": {
+                "open-page-views": [
+                    {
+                        "w": 1920,
+                        "h": 1080
+                    }
+                ]
+            }
+        }
+    }
+}

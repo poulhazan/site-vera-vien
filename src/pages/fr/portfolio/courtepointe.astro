@@ -1,0 +1,286 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import i18n from '../../../data/i18n.json';
+import { getCollection } from 'astro:content';
+
+const lang = 'fr';
+const t = (i18n as any)[lang];
+
+const projects = await getCollection('projects', ({ data }) => data.language === 'fr');
+const sorted = projects.sort((a, b) => a.data.order - b.data.order);
+const idx = sorted.findIndex((p) => p.data.projectSlug === 'courtepointe');
+const d = sorted[idx].data;
+const prev = sorted[(idx - 1 + sorted.length) % sorted.length];
+const next = sorted[(idx + 1) % sorted.length];
+---
+<BaseLayout lang={lang} title={d.title} description={d.shortDescription}>
+  <div class="opening" style={`background-image:url(${d.coverImage});background-position:${d.coverPosition}`}>
+    <span class="opening-label">{d.badgeLabel || `${d.title} · ${d.category}`}</span>
+  </div>
+
+  <div class="container project-body">
+    <div class="main-col">
+      {d.kicker && <div class="kicker">{d.kicker}</div>}
+      <div class="title-row">
+        <h1>{d.title}</h1>
+        <span class="year">{d.yearLabel || d.year}</span>
+      </div>
+      <p class="desc lead">{d.shortDescription}</p>
+    </div>
+
+    <aside class="sidebar">
+      <div class="field"><span class="label">{t.project.role}</span><span class="value">{d.role}</span></div>
+      <div class="field"><span class="label">{t.project.year}</span><span class="value">{d.yearLabel || d.year}</span></div>
+      <div class="field"><span class="label">{t.project.category}</span><span class="value">{d.category}</span></div>
+      <div class="field">
+        <span class="label">{t.project.tags}</span>
+        <div class="chips">{d.tags.map((tag: string) => <span class="chip">{tag}</span>)}</div>
+      </div>
+      <a class="btn btn-primary" href={`/${lang}/contact/`}>{t.project.contactCta}</a>
+    </aside>
+  </div>
+
+  <section class="book-stage">
+    <span class="hint">← → ou glissez pour tourner les pages</span>
+    <button class="nav-arrow left" id="prev" aria-label="Page précédente">‹</button>
+    <button class="nav-arrow right" id="next" aria-label="Page suivante">›</button>
+
+    <div class="book" id="book">
+      <div class="spine" id="spine"></div>
+      <div class="page-side left" id="page-left"></div>
+      <div class="page-side right" id="page-right"></div>
+    </div>
+    <div class="page-label" id="page-label"></div>
+  </section>
+
+  <div class="container">
+    {d.palettes.length > 0 && (
+      <div class="section">
+        <div class="section-head">
+          <h2>{t.project.palette}</h2>
+          <span class="caption-italic">{t.project.paletteCaption}</span>
+        </div>
+        <div class="palettes">
+          {d.palettes.map((p: any) => (
+            <div class="palette-group">
+              {p.label && <div class="palette-label">{p.label}</div>}
+              <div class="palette-row">
+                {p.colors.map((c: string) => <div class="swatch sm" style={`background:${c}`}></div>)}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <div class="skills-box">
+      <h3>{t.project.skillsShown}</h3>
+      <div class="chips">
+        {d.skillsShown.map((s: string) => <span class="chip">{s}</span>)}
+      </div>
+    </div>
+  </div>
+
+  <nav class="prev-next">
+    <a href={`/${lang}/portfolio/${prev.data.projectSlug}/`}>← {prev.data.title}</a>
+    <a class="back" href={`/${lang}/portfolio/`}>{t.project.back}</a>
+    <a href={`/${lang}/portfolio/${next.data.projectSlug}/`}>{next.data.title} →</a>
+  </nav>
+</BaseLayout>
+
+<style>
+  .opening { height: 480px; background-color: #EFDFC9; background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 28px 64px; }
+  .opening-label { font: 600 12px 'Work Sans', sans-serif; color: #FFF6E8; background: rgba(30,18,8,.55); padding: 8px 16px; border-radius: 999px; text-transform: uppercase; letter-spacing: .06em; }
+  .project-body { display: grid; grid-template-columns: 1fr 320px; gap: 56px; padding: 56px 24px; max-width: 1180px; }
+  .kicker { font: 700 12px 'Work Sans', sans-serif; color: var(--orange-text); letter-spacing: .18em; text-transform: uppercase; border-top: 2px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 6px 0; display: inline-block; width: fit-content; margin-bottom: 24px; }
+  .title-row { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  h1 { font-size: 52px; line-height: 1; }
+  .year { font-family: 'Caveat', cursive; font-size: 22px; color: var(--orange-text); transform: rotate(-2deg); display: inline-block; }
+  .desc.lead { font: 400 17px/1.65 'Work Sans', sans-serif; color: #4A3320; max-width: 640px; margin-top: 20px; }
+
+  .section { margin-top: 40px; }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--rule); padding-bottom: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .section-head h2 { font-size: 24px; }
+  .caption-italic { font: italic 400 12.5px Georgia, serif; color: var(--brown-soft); }
+  .palettes { display: grid; gap: 24px; }
+  .palette-label { font: 600 11px 'Work Sans', sans-serif; color: var(--brown-muted); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
+  .palette-row { display: flex; gap: 8px; }
+  .swatch { flex: 1; height: 120px; border-radius: 2px; }
+  .swatch.sm { height: 70px; }
+
+  .skills-box { margin: 40px 0; background: var(--chip-bg); border-radius: 4px; padding: 28px 32px; }
+  .skills-box h3 { font-size: 22px; margin-bottom: 12px; }
+  .skills-box .chip { background: #FFFBF2; }
+
+  .sidebar { align-self: start; padding: 28px 30px; display: flex; flex-direction: column; gap: 16px; transform: rotate(.6deg); box-shadow: 0 10px 22px rgba(20,10,4,.16); background-color: var(--chip-bg); border-radius: 4px; }
+  .field { display: flex; flex-direction: column; gap: 2px; }
+  .label { font: 700 11px 'Work Sans', sans-serif; color: var(--brown-muted); letter-spacing: .1em; text-transform: uppercase; }
+  .value { font: 500 14.5px 'Work Sans', sans-serif; color: var(--ink); }
+  .sidebar .chips .chip { font-size: 11px; padding: 4px 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .prev-next { display: flex; justify-content: space-between; align-items: center; padding: 28px 64px; border-top: 2px solid var(--rule); background: #F0E0C8; font: 600 20px 'Work Sans', sans-serif; }
+  .prev-next a { color: var(--brown-soft); }
+  .prev-next a:last-child { color: var(--orange-text); }
+  .prev-next .back { font-weight: 500; color: var(--brown-soft); }
+
+  .book-stage {
+    position: relative;
+    min-height: 720px;
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 40px 20px;
+    border-top: 1px solid var(--divider);
+  }
+  .hint {
+    position: absolute; top: 22px; right: 24px;
+    font: 600 11.5px 'Work Sans', sans-serif; color: var(--brown-muted);
+    letter-spacing: .06em; text-transform: uppercase; z-index: 5;
+  }
+  .nav-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 52px; height: 52px; border-radius: 50%;
+    background: rgba(40,25,10,.10); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink); font-size: 24px; z-index: 5;
+  }
+  .nav-arrow:hover { background: rgba(40,25,10,.18); }
+  .nav-arrow.left { left: 24px; }
+  .nav-arrow.right { right: 24px; }
+  .nav-arrow.hidden { display: none; }
+
+  .book {
+    position: relative;
+    width: 78%; max-width: 1100px; aspect-ratio: 2 / 1;
+    display: grid; grid-template-columns: 1fr 1fr;
+    background: #fff;
+    box-shadow: 0 30px 60px rgba(20,10,4,.28), 0 2px 8px rgba(20,10,4,.12);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .spine {
+    position: absolute; top: 0; bottom: 0; left: 50%; width: 46px; margin-left: -23px;
+    z-index: 3; pointer-events: none;
+    background: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(20,10,4,.14) 42%, rgba(20,10,4,.20) 50%, rgba(20,10,4,.14) 58%, rgba(0,0,0,0) 100%);
+  }
+  .page-side { position: relative; background: #fff; animation: fadeIn .22s ease; }
+  .page-side img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .page-side.blank { background: #fff; }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .page-label {
+    margin-top: 18px;
+    font: 600 13px 'Work Sans', sans-serif; color: var(--brown-muted);
+    display: flex; justify-content: center; gap: 8px;
+  }
+
+  @media (max-width: 780px) {
+    .opening { padding: 24px; }
+    .project-body { grid-template-columns: 1fr; padding: 40px 20px; gap: 32px; }
+    .prev-next { flex-direction: column; gap: 10px; padding: 24px; text-align: center; }
+  }
+  @media (max-width: 720px) {
+    .book { width: 100%; aspect-ratio: 1 / 1; }
+    .hint { display: none; }
+    .spine { display: none; }
+  }
+</style>
+
+<script>
+  const PAGES_DIR = '/assets/images/projects/courtepointe';
+  const img = (n: number) => `${PAGES_DIR}/page-${String(n).padStart(2, '0')}.jpg`;
+
+  type Slot = { img: string } | null;
+  type Spread =
+    | { type: 'pair'; pages: [number, number]; left: Slot; right: Slot }
+    | { type: 'full'; pages: [number, number]; img: string };
+
+  const spreads: Spread[] = [
+    { type: 'pair', pages: [0, 1], left: { img: img(15) }, right: { img: img(1) } },
+    { type: 'full', pages: [2, 3], img: img(16) },
+    { type: 'pair', pages: [4, 5], left: null, right: { img: img(2) } },
+    { type: 'pair', pages: [6, 7], left: null, right: { img: img(3) } },
+    { type: 'full', pages: [8, 9], img: img(4) },
+    { type: 'full', pages: [10, 11], img: img(5) },
+    { type: 'full', pages: [12, 13], img: img(6) },
+    { type: 'full', pages: [14, 15], img: img(7) },
+    { type: 'full', pages: [16, 17], img: img(8) },
+    { type: 'full', pages: [18, 19], img: img(9) },
+    { type: 'full', pages: [20, 21], img: img(10) },
+    { type: 'full', pages: [22, 23], img: img(11) },
+    { type: 'full', pages: [24, 25], img: img(16) },
+    { type: 'pair', pages: [26, 0], left: { img: img(15) }, right: { img: img(1) } },
+  ];
+
+  let index = 0;
+  try {
+    const saved = parseInt(localStorage.getItem('vv_courtepointe_spread') || '', 10);
+    if (!isNaN(saved)) index = Math.min(Math.max(saved, 0), spreads.length - 1);
+  } catch (e) {}
+
+  const leftEl = document.getElementById('page-left')!;
+  const rightEl = document.getElementById('page-right')!;
+  const labelEl = document.getElementById('page-label')!;
+  const prevBtn = document.getElementById('prev')!;
+  const nextBtn = document.getElementById('next')!;
+
+  function slotHTML(slot: Slot) {
+    if (!slot) return '';
+    return `<img src="${slot.img}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" />`;
+  }
+
+  function render() {
+    const spread = spreads[index];
+    leftEl.classList.remove('blank');
+    rightEl.classList.remove('blank');
+
+    bookEl.classList.toggle('full-spread', spread.type === 'full');
+
+    if (spread.type === 'full') {
+      leftEl.innerHTML = `<img src="${spread.img}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;object-position:left center;" />`;
+      rightEl.innerHTML = `<img src="${spread.img}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;object-position:right center;" />`;
+    } else {
+      leftEl.innerHTML = slotHTML(spread.left);
+      rightEl.innerHTML = slotHTML(spread.right);
+      if (!spread.left) leftEl.classList.add('blank');
+      if (!spread.right) rightEl.classList.add('blank');
+    }
+
+    const [l, r] = spread.pages;
+    const label = [l, r].filter((n) => n > 0).join(' — ');
+    labelEl.textContent = label;
+
+    prevBtn.classList.toggle('hidden', index <= 0);
+    nextBtn.classList.toggle('hidden', index >= spreads.length - 1);
+  }
+
+  function persist() {
+    try { localStorage.setItem('vv_courtepointe_spread', String(index)); } catch (e) {}
+  }
+
+  function next() { index = Math.min(index + 1, spreads.length - 1); persist(); render(); }
+  function prev() { index = Math.max(index - 1, 0); persist(); render(); }
+
+  prevBtn.addEventListener('click', prev);
+  nextBtn.addEventListener('click', next);
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') next();
+    if (e.key === 'ArrowLeft') prev();
+  });
+
+  let touchStartX = 0;
+  const bookEl = document.getElementById('book')!;
+  bookEl.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  bookEl.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); }
+  }, { passive: true });
+
+  render();
+</script>

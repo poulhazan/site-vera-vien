@@ -1,0 +1,111 @@
+:root {
+  --cream: #F7F2E4;
+  --paper: #F7F3E6;
+  --ink: #1F130A;
+  --brown: #3A2716;
+  --brown-soft: #6B4E30;
+  --brown-muted: #6E5233;
+  --orange: #E1642E;
+  --orange-deep: #C24E1D;
+  --orange-text: #A8420F;
+  --rule: #2A1A0C;
+  --divider: #C9B48C;
+  --chip-bg: #EDE1CB;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--cream);
+  color: var(--brown);
+  font-family: 'Work Sans', system-ui, sans-serif;
+}
+
+img { max-width: 100%; display: block; }
+
+a { color: var(--orange-text); text-decoration: none; }
+a:hover { color: var(--orange-deep); }
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--ink);
+  color: #fff;
+  padding: 8px 16px;
+  z-index: 100;
+}
+.skip-link:focus { left: 8px; top: 8px; }
+
+h1, h2, h3 { font-family: 'Fraunces', serif; font-optical-sizing: auto; font-weight: 600; color: var(--ink); margin: 0; }
+
+.serif-body { font-family: Georgia, serif; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 600 14px 'Work Sans', sans-serif;
+  padding: 12px 24px;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform .15s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn-primary { background: var(--orange); color: #FBF3E4; }
+.btn-primary:hover { background: var(--orange-deep); color: #FBF3E4; }
+.btn-outline { background: transparent; color: var(--ink); border-color: var(--ink); }
+
+.chip {
+  font: 600 11.5px 'Work Sans', sans-serif;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--chip-bg);
+  color: var(--ink);
+  white-space: nowrap;
+}
+.chip:nth-of-type(4n+1) { background: #F9E9E1; color: #A8462E; }
+.chip:nth-of-type(4n+2) { background: #EDEFDD; color: #565E31; }
+.chip:nth-of-type(4n+3) { background: #F7EDD3; color: #7A5A17; }
+.chip:nth-of-type(4n+4) { background: #E3EAF0; color: #3A5773; }
+
+.paper-card {
+  background-image: url('/assets/images/textures/paper-texture.png');
+  background-size: 900px auto;
+  background-color: var(--paper);
+}
+
+.wood-band {
+  background-image: url('/assets/images/textures/wood-teak.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.masthead-rule {
+  border-top: 3px double var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 6px 0 8px;
+}
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 780px) {
+  .container { padding: 0 18px; }
+}

@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import i18n from '../../data/i18n.json';
+
+const lang = 'fr';
+const t = (i18n as any)[lang];
+---
+<BaseLayout lang={lang} title="À propos">
+  <section class="container bio-wrap">
+    <div class="article">
+      <div class="masthead-rule kicker-row"><span>{t.about.kicker}</span></div>
+      <h1>{t.about.title}</h1>
+
+      <div class="bio-grid">
+        <div class="photo-col">
+          <div class="photo"><img src="/assets/images/about/vera-photo.jpg" alt="Vera Vien" loading="lazy" /></div>
+          <div class="photo-footer">
+            <div class="fig-caption">Fig. 1 — Vera</div>
+            <div class="photo-credit">Photographie : Pauline Delaborde</div>
+          </div>
+        </div>
+        <div class="right-col">
+          <p>{t.about.text1}</p>
+          <p>{t.about.text2}</p>
+          {t.about.text3 && <p>{t.about.text3}</p>}
+          {t.about.text4 && <p>{t.about.text4}</p>}
+          <div class="traits">
+            {t.about.traits.map((tr: string) => <span class="chip">{tr}</span>)}
+          </div>
+          <div class="cta-row">
+            <a class="btn btn-outline" href="/assets/resume/vera-vien-resume.pdf" target="_blank" rel="noopener">{t.about.ctaResume}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wood-band sketches-band">
+    <div class="container">
+      <div class="sketches-head">
+        <h2 class="light">{t.about.sketches}</h2>
+        <span class="sub">{t.about.sketchesSub}</span>
+      </div>
+      <div class="sketch-row">
+        {[1, 2, 3, 4].map((n, i) => (
+          <div class="sketch-card" style={`transform:rotate(${(i % 2 === 0 ? -1 : 1) * (2 + i)}deg)`}>
+            <img class="sketch-img" src={`/assets/images/about-latest/ig-${String(n).padStart(2, '0')}.jpg`} alt={`Croquis ${i + 1}`} loading="lazy" />
+          </div>
+        ))}
+      </div>
+      <p class="note">{t.about.sketchesNote}</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .bio-wrap { padding: 56px 24px 0; }
+  .article { padding: 32px 44px 40px; background: var(--chip-bg); border-radius: 4px; }
+  .kicker-row { font: 700 10.5px 'Work Sans', sans-serif; color: var(--brown-muted); letter-spacing: .16em; text-transform: uppercase; }
+  h1 { font-size: 46px; margin-top: 14px; }
+  .bio-grid { display: grid; grid-template-columns: 360px 1fr; gap: 40px; margin-top: 20px; align-items: start; }
+  .photo { height: 380px; background: #F0DECC; box-shadow: 0 0 0 1px rgba(40,25,10,.15); overflow: hidden; }
+  .photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 55%; transform: scale(1.35); transform-origin: center 15%; display: block; }
+  .photo-footer { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 8px; }
+  .fig-caption { font: italic 400 12px Georgia, serif; color: var(--brown-soft); }
+  .photo-credit { font: italic 400 11px Georgia, serif; color: var(--brown-soft); }
+  .right-col { display: flex; flex-direction: column; gap: 16px; padding-top: 6px; }
+  .right-col p { font: 400 16.5px/1.7 Georgia, serif; color: var(--brown); margin: 0; }
+  .traits { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .cta-row { margin-top: 10px; }
+
+  .sketches-band { padding: 44px 0 56px; margin-top: 56px; }
+  .sketches-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 28px; }
+  .light { color: #FFF6E8; }
+  .sub { font-family: 'Caveat', cursive; font-size: 20px; color: #F5DEB8; transform: rotate(-2deg); }
+  .sketch-row { display: flex; gap: 26px; flex-wrap: wrap; }
+  .sketch-card { width: 220px; background: linear-gradient(155deg,#fffef9,#f2ede1); padding: 12px 12px 38px; box-shadow: 0 14px 24px rgba(15,7,3,.44); }
+  .sketch-img { width: 100%; height: 200px; object-fit: cover; display: block; }
+  .note { margin-top: 20px; font: 500 13px 'Work Sans', sans-serif; color: #F5DEB8; }
+  @media (max-width: 860px) { .bio-grid { grid-template-columns: 1fr; } }
+</style>

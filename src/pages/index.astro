@@ -1,0 +1,20 @@
+---
+// Root redirect: sends visitors to /en/ by default.
+// (Browser-language detection is done client-side below since GitHub Pages
+// serves static files with no server-side logic.)
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content="0; url=/en/" />
+    <title>Vera Vien</title>
+    <script>
+      var lang = (navigator.language || 'en').slice(0, 2) === 'fr' ? 'fr' : 'en';
+      window.location.replace('/' + lang + '/');
+    </script>
+  </head>
+  <body>
+    <p>Redirecting… / Redirection… <a href="/en/">English</a> · <a href="/fr/">Français</a></p>
+  </body>
+</html>

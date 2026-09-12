@@ -1,0 +1,71 @@
+---
+import i18n from '../data/i18n.json';
+
+interface Props { lang: 'en' | 'fr' }
+const { lang } = Astro.props as Props;
+const t = (i18n as any)[lang];
+const other = lang === 'en' ? 'fr' : 'en';
+
+// Map current path to the equivalent path in the other language
+const path = Astro.url.pathname.replace(/^\/(en|fr)/, `/${other}`);
+
+const isActive = (section: string) => Astro.url.pathname.includes(`/${lang}/${section}`);
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="logo" href={`/${lang}/`}>VERAVIEN.CA — PORTFOLIO, VOL. 1</a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href={`/${lang}/portfolio/`} aria-current={isActive('portfolio') ? 'page' : undefined}>{t.nav.portfolio}</a>
+      <a href={`/${lang}/sketchbook/`} aria-current={isActive('sketchbook') ? 'page' : undefined}>{t.nav.sketchbook}</a>
+      <a href={`/${lang}/demo-reel/`} aria-current={isActive('demo-reel') ? 'page' : undefined}>{t.nav.reel}</a>
+      <a href={`/${lang}/about/`} aria-current={isActive('about') ? 'page' : undefined}>{t.nav.about}</a>
+      <a href={`/${lang}/contact/`} aria-current={isActive('contact') ? 'page' : undefined}>{t.nav.contact}</a>
+      <span class="lang-switch">
+        <a href={lang === 'en' ? Astro.url.pathname : path} aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+        <span aria-hidden="true">·</span>
+        <a href={lang === 'fr' ? Astro.url.pathname : path} aria-current={lang === 'fr' ? 'true' : undefined}>FR</a>
+      </span>
+      <a class="btn btn-primary resume-btn" href={`/${lang}/resume/`}>{t.nav.resume}</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    background: var(--cream);
+    border-bottom: 2px solid var(--rule);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+  }
+  .logo {
+    font: 700 12px ui-monospace, Menlo, monospace;
+    letter-spacing: .14em;
+    color: #8A5A33;
+    white-space: nowrap;
+  }
+  .logo:hover { color: #8A5A33; }
+  .main-nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .main-nav a { font: 500 14px 'Work Sans', sans-serif; color: var(--ink); }
+  .main-nav a:hover { color: var(--orange-text); }
+  .main-nav a[aria-current='page'] { font-weight: 600; color: var(--orange-text); border-bottom: 2px solid var(--orange); padding-bottom: 2px; }
+  .lang-switch { font: 600 12px 'Work Sans', sans-serif; color: var(--brown-muted); display: flex; gap: 6px; }
+  .lang-switch a { color: var(--brown-muted); }
+  .lang-switch a[aria-current='true'] { color: var(--orange-text); }
+  .resume-btn { padding: 10px 20px; }
+  @media (max-width: 720px) {
+    .main-nav { gap: 14px; }
+    .header-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
+  }
+</style>

@@ -1,0 +1,19 @@
+{
+  "name": "veravien-portfolio",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^7.0.9"
+  },
+  "devDependencies": {
+    "@pinegrow/piny-astro": "^1.0.8",
+    "micromorph": "^0.4.5"
+  }
+}

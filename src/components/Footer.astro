@@ -1,0 +1,22 @@
+---
+import site from '../data/site.json';
+---
+<footer class="wood-band site-footer">
+  <div class="container footer-inner">
+    <div class="social">
+      <a href={site.social.artstation} target="_blank" rel="noopener">ArtStation</a>
+      <a href={site.social.instagram} target="_blank" rel="noopener">Instagram</a>
+      <a href={site.social.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+      <a href={site.social.facebook} target="_blank" rel="noopener">Facebook</a>
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { padding: 48px 0; }
+  .footer-inner { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+  .social { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; font: 500 13px 'Work Sans', sans-serif; }
+  .social a { color: #E8CBA0; }
+  .social a:hover { color: #fff; }
+</style>

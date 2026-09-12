@@ -1,0 +1,170 @@
+{
+  "en": {
+    "nav": { "portfolio": "Portfolio", "sketchbook": "Sketchbook", "reel": "Demo Reel", "about": "About", "contact": "Contact", "resume": "Resume" },
+    "home": {
+      "kicker": "Portfolio · Vol. I",
+      "title": "Vera Vien",
+      "subtitle": "Background Artist · Children's Book Illustrator · 2D Artist",
+      "intro": "Colorful story-driven worlds for animation, illustration and publishing. Based in Montréal.",
+      "ctaPortfolio": "View Portfolio",
+      "ctaReel": "Demo Reel",
+      "ctaResume": "Resume",
+      "ctaContact": "Contact",
+      "selectedWork": "Selected Work",
+      "viewAll": "View all projects →",
+      "availability": "Available for animation, children's publishing, layout, visual development & freelance work.",
+      "quote": "Inspiration is all around us — you just have to open your eyes.",
+      "categories": ["Backgrounds", "Children's Books", "Layout & Visdev", "Character Design"]
+    },
+    "portfolio": {
+      "title": "Portfolio",
+      "editionLabel": "Full edition",
+      "worksCount": "works",
+      "filters": ["All", "Background", "Children's Book", "Layout", "Illustration", "Character Design", "Visual Development", "Storyboard", "Sketches / Process"],
+      "viewProject": "View project →"
+    },
+    "project": {
+      "role": "Role", "year": "Year", "category": "Category", "tags": "Tags",
+      "process": "Process", "processCaption": "From sketch to final background",
+      "skillsShown": "What this project shows",
+      "contactCta": "Contact about this work",
+      "prev": "Previous project", "next": "Next project", "back": "Back to portfolio",
+      "synopsis": "Synopsis",
+      "decors": "Backgrounds", "clickToEnlarge": "click to enlarge",
+      "characters": "Characters", "characterCaption": "Character design · click to enlarge",
+      "research": "Research", "researchCaption": "Visual research · click to enlarge",
+      "storyboard": "Storyboard", "storyboardCaption": "Animatic & shot breakdown",
+      "colorScript": "Color Script", "colorScriptCaption": "Lighting progression of the film",
+      "illustrations": "Illustrations", "illustrationsCaption": "Full series · click to enlarge",
+      "palette": "Palette", "palettes": "Palettes", "paletteCaption": "The series' color DNA",
+      "palettesCaption": "Two moods — day & night"
+    },
+    "reel": {
+      "title": "Demo Reel",
+      "kicker": "Reel · 2022",
+      "text1": "A selection of key frames, backgrounds and visual development work made for animation — designed for a recruiter's first glance: composition, light and story in a few seconds.",
+      "text2": "Every shot comes from a project detailed in the portfolio, with full context, role and process.",
+      "ctaArtstation": "Watch on YouTube ↗",
+      "ctaPortfolio": "View Portfolio"
+    },
+    "about": {
+      "kicker": "About · Montréal, QC",
+      "title": "Hi, I'm Vera.",
+      "text1": "2D artist based in Montréal, I create colorful, story-driven worlds for animation and children's illustration. I love imagining backgrounds that tell a story, building warm atmospheres and bringing expressive characters to life. My style is colorful, energetic, sometimes touched with a bit of retro, and always guided by curiosity.",
+      "text2": "My path led me to explore several artistic disciplines: after a College Diploma in Visual Arts at Cégep de Saint-Laurent and a Bachelor's in Environmental Design at UQAM, I specialized in 2D Animation at Cégep du Vieux Montréal. That diversity still shapes how I approach an image today, from composition and color to world-building.",
+      "text3": "I draw a lot of my inspiration from small everyday details: an afternoon light, the pattern on a fabric, an old poster, a childhood memory, or a scene glimpsed on a street corner. I love observing what's around me and turning those fragments into images and stories.",
+      "text4": "And when I'm not drawing, I'm often outside. I love hiking, wide open spaces, and especially the seaside — with a particular fondness for Finistère, in Brittany.",
+      "traits": ["Energetic", "Funny", "Gentle", "Retro"],
+      "ctaResume": "Download Resume",
+      "sketches": "Latest Sketches",
+      "sketchesSub": "From my sketchbook & Instagram",
+      "sketchesNote": "Updated manually for now — a semi-automatic Instagram import is planned."
+    },
+    "resume": {
+      "kicker": "Curriculum Vitæ",
+      "downloadPdf": "Download PDF ↓",
+      "subtitle": "Background Artist · Children's Book Illustrator · 2D Artist — Montréal, QC",
+      "experience": "Experience", "education": "Education", "skills": "Skills",
+      "software": "Software", "languages": "Languages", "links": "Links"
+    },
+    "contact": {
+      "kicker": "Contact",
+      "title": "Available for animation, illustration, publishing and freelance opportunities.",
+      "sub": "Write to me, I answer fast!",
+      "name": "Name", "email": "Email", "studio": "Studio / Organization (optional)", "message": "Message",
+      "namePh": "Your name", "emailPh": "you@example.com", "studioPh": "Studio name", "messagePh": "Tell me about your project or opportunity…",
+      "send": "Send message"
+    },
+    "sketchbook": {
+      "hint": "← → or scroll to turn pages",
+      "close": "Close ✕"
+    },
+    "footer": {
+      "quote": "Inspiration is all around us — you just have to open your eyes."
+    }
+  },
+  "fr": {
+    "nav": { "portfolio": "Portfolio", "sketchbook": "Sketchbook", "reel": "Demo Reel", "about": "À propos", "contact": "Contact", "resume": "CV" },
+    "home": {
+      "kicker": "Portfolio · Vol. I",
+      "title": "Vera Vien",
+      "subtitle": "Artiste décors · Illustratrice jeunesse · Artiste 2D",
+      "intro": "Univers colorés et narratifs pour l'animation, l'illustration et l'édition. Basée à Montréal.",
+      "ctaPortfolio": "Voir le portfolio",
+      "ctaReel": "Demo Reel",
+      "ctaResume": "CV",
+      "ctaContact": "Contact",
+      "selectedWork": "Selected Work",
+      "viewAll": "Voir tous les projets →",
+      "availability": "Disponible pour l'animation, l'édition jeunesse, le layout, le visual development et le freelance.",
+      "quote": "L'inspiration est partout autour de nous, il suffit d'ouvrir les yeux.",
+      "categories": ["Décors", "Livres jeunesse", "Layout & Visdev", "Design de personnages"]
+    },
+    "portfolio": {
+      "title": "Portfolio",
+      "editionLabel": "Édition complète",
+      "worksCount": "œuvres",
+      "filters": ["Tout", "Décor", "Livre jeunesse", "Layout", "Illustration", "Design de personnages", "Développement visuel", "Scénarimage", "Croquis / Processus"],
+      "viewProject": "Voir le projet →"
+    },
+    "project": {
+      "role": "Rôle", "year": "Année", "category": "Catégorie", "tags": "Tags",
+      "process": "Processus", "processCaption": "Du croquis au décor final",
+      "skillsShown": "Ce que ce projet démontre",
+      "contactCta": "Me contacter pour ce projet",
+      "prev": "Projet précédent", "next": "Projet suivant", "back": "Retour au portfolio",
+      "synopsis": "Synopsis",
+      "decors": "Décors", "clickToEnlarge": "cliquez pour agrandir",
+      "characters": "Personnages", "characterCaption": "Conception de personnages · cliquez pour agrandir",
+      "research": "Recherche", "researchCaption": "Recherche visuelle · cliquez pour agrandir",
+      "storyboard": "Scénarimage", "storyboardCaption": "Animatique & découpage des plans",
+      "colorScript": "Script couleur", "colorScriptCaption": "Progression lumineuse du film",
+      "illustrations": "Illustrations", "illustrationsCaption": "Série complète · cliquez pour agrandir",
+      "palette": "Palette", "palettes": "Palettes", "paletteCaption": "L'ADN couleur de la série",
+      "palettesCaption": "Deux ambiances — jour & nuit"
+    },
+    "reel": {
+      "title": "Demo Reel",
+      "kicker": "Reel · 2022",
+      "text1": "Une sélection de plans clés, décors et développements visuels réalisés pour l'animation — pensée pour un premier coup d'œil de recruteur : composition, lumière et narration en quelques secondes.",
+      "text2": "Chaque plan est tiré d'un projet détaillé dans le portfolio, avec le contexte, le rôle et le processus complet.",
+      "ctaArtstation": "Voir sur YouTube ↗",
+      "ctaPortfolio": "Voir le portfolio"
+    },
+    "about": {
+      "kicker": "À propos · Montréal, QC",
+      "title": "Bonjour, je suis Vera.",
+      "text1": "Artiste 2D basée à Montréal, je crée des univers colorés et narratifs pour l'animation et l'illustration jeunesse. J'aime imaginer des décors qui racontent une histoire, construire des ambiances chaleureuses et donner vie à des personnages expressifs. Mon univers est coloré, énergique, parfois teinté d'une touche rétro, et toujours guidé par la curiosité.",
+      "text2": "Mon parcours m'a amenée à explorer plusieurs disciplines artistiques : après un DEC en Arts visuels au Cégep de Saint-Laurent et un baccalauréat en Design de l'environnement à l'UQAM, je me suis spécialisée en animation 2D au Cégep du Vieux Montréal. Cette diversité nourrit aujourd'hui ma façon d'aborder l'image, autant dans la composition et la couleur que dans la création d'univers.",
+      "text3": "Je puise beaucoup de mon inspiration dans les petits détails du quotidien : une lumière d'après-midi, les motifs d'un tissu, une vieille affiche, un souvenir d'enfance ou une scène aperçue au détour d'une rue. J'aime observer ce qui m'entoure et transformer ces fragments en images et en histoires.",
+      "text4": "Et lorsque je ne dessine pas, je suis souvent dehors. J'aime la randonnée, les grands espaces et particulièrement le bord de mer, avec une affection toute particulière pour le Finistère, en Bretagne.",
+      "traits": ["Énergique", "Drôle", "Douce", "Rétro"],
+      "ctaResume": "Télécharger le CV",
+      "sketches": "Latest Sketches",
+      "sketchesSub": "Tirés de mon carnet & d'Instagram",
+      "sketchesNote": "Mis à jour manuellement — plus tard : import semi-automatique depuis Instagram."
+    },
+    "resume": {
+      "kicker": "Curriculum Vitæ",
+      "downloadPdf": "Télécharger le PDF ↓",
+      "subtitle": "Artiste décors · Illustratrice jeunesse · Artiste 2D — Montréal, QC",
+      "experience": "Expérience", "education": "Formation", "skills": "Compétences",
+      "software": "Logiciels", "languages": "Langues", "links": "Liens"
+    },
+    "contact": {
+      "kicker": "Contact",
+      "title": "Disponible pour l'animation, l'illustration, l'édition et le freelance.",
+      "sub": "Écrivez-moi, je réponds vite !",
+      "name": "Nom", "email": "E-mail", "studio": "Studio / Organisation (optionnel)", "message": "Message",
+      "namePh": "Votre nom", "emailPh": "vous@exemple.com", "studioPh": "Nom du studio", "messagePh": "Parlez-moi de votre projet ou de votre offre…",
+      "send": "Envoyer le message"
+    },
+    "sketchbook": {
+      "hint": "← → ou molette pour tourner les pages",
+      "close": "Fermer ✕"
+    },
+    "footer": {
+      "quote": "L'inspiration est partout autour de nous, il suffit d'ouvrir les yeux."
+    }
+  }
+}

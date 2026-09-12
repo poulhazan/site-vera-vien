@@ -1,0 +1,180 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import i18n from '../../data/i18n.json';
+import site from '../../data/site.json';
+
+const lang = 'en';
+const t = (i18n as any)[lang];
+---
+<BaseLayout lang={lang} title={t.nav.resume}>
+  <section class="container resume-wrap">
+    <div class="paper-frame" id="paper-frame" data-native-w="1536" data-native-h="1024">
+      <div class="paper-mask" aria-hidden="true"></div>
+      <div class="article" id="paper-article">
+      <div class="masthead-rule kicker-row">
+        <span>{t.resume.kicker}</span>
+        <a class="download" href={site.resumePdf} target="_blank" rel="noopener">{t.resume.downloadPdf}</a>
+      </div>
+      <h1>Vera Vien</h1>
+      <p class="subtitle">Environment Designer &amp; 2D Artist — Preproduction · Montréal, QC</p>
+      <p class="summary">2D artist specialized in preproduction. I am looking for a studio where I can grow my career in animation and take on more responsibility, with the long-term goal of a production coordinator role. I thrive on teamwork and new challenges, and equally enjoy recharging through focused solo work.</p>
+
+      <div class="resume-grid">
+        <div class="main">
+          <div class="block">
+            <h3>{t.resume.experience}</h3>
+            <div class="entry">
+              <div class="entry-head"><b>2D Artist — Loomi Animation</b><span class="dates">2022 — 2024</span></div>
+              <p class="sub"><i>Season 1 of HOP!</i> (HBO Max) &amp; <i>Season 1 of Wild Manes</i> (YouTube)</p>
+              <ul>
+                <li>Vectorized props (Harmony) for animation, optimized against animatics and scripts.</li>
+                <li>Animated visual effects (FX) in Harmony.</li>
+                <li>Broke down animatics (Photoshop) to build model sheets for the design team.</li>
+                <li>Posted daily progress online and kept continuous communication with the team and studio.</li>
+              </ul>
+            </div>
+            <div class="entry">
+              <div class="entry-head"><b>Production Assistant — <i>Madeleine</i>, a film by Raquel Sancinetti</b><span class="dates">2021</span></div>
+              <p class="sub">Volunteer, stop-motion unit (independent documentary film)</p>
+              <ul>
+                <li>Wool felting to create the field of flowers.</li>
+                <li>Painted the retirement-home façade and the lawn.</li>
+                <li>Built sets (plaster / mixed media) and set up the desert scene for the shoot.</li>
+                <li>Crafted additional felt mouths for the Raquel puppet.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="block">
+            <h3>{t.resume.education}</h3>
+            <div class="edu-row"><span><b>Diploma in 2D Animation</b> — Cégep du Vieux-Montréal</span><span class="dates">2022</span></div>
+            <div class="edu-row"><span><b>Bachelor in Environmental Design</b> — UQÀM</span><span class="dates">2018</span></div>
+            <div class="edu-row"><span><b>College Diploma in Visual Arts</b> — Cégep de Saint-Laurent</span><span class="dates">2013</span></div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="side">
+          <div class="block">
+            <h3>{t.resume.skills}</h3>
+            <div class="chips">
+              <span class="chip" style="color:#A8462E;background:#F9E9E1">Concept art — Character</span>
+              <span class="chip" style="color:#565E31;background:#EDEFDD">Concept art — Environment</span>
+              <span class="chip" style="color:#7A5A17;background:#F7EDD3">Concept art — Props</span>
+              <span class="chip" style="color:#3A5773;background:#E3EAF0">Comic illustration</span>
+              <span class="chip" style="color:#A8462E;background:#F9E9E1">Children's illustration</span>
+              <span class="chip" style="color:#565E31;background:#EDEFDD">Storyboarding</span>
+            </div>
+          </div>
+          <div class="block"><h3>{t.resume.software}</h3><p><b>ToonBoom</b> — Harmony, Storyboard Pro<br /><b>Adobe</b> — Photoshop, InDesign, Illustrator, Premiere Pro<br />Procreate · AutoCAD · Office Suite</p></div>
+          <div class="block">
+            <h3>{t.resume.languages}</h3>
+            <div class="lang-row"><span>French</span><span class="dots">●●●●●</span></div>
+            <div class="lang-row"><span>English</span><span class="dots">●●●●<span class="off">●</span></span></div>
+            <div class="lang-row"><span>German</span><span class="dots">●●<span class="off">●●●</span></span></div>
+          </div>
+          <div class="block">
+            <h3>{t.resume.links}</h3>
+            <div class="links">
+              <a href={site.social.artstation} target="_blank" rel="noopener">ArtStation ↗</a>
+              <a href={site.social.instagram} target="_blank" rel="noopener">Instagram ↗</a>
+              <a href={site.social.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a>
+              <a href={site.social.facebook} target="_blank" rel="noopener">Facebook ↗</a>
+              <a href={`mailto:${site.email}`} class="mail">{site.email}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .resume-wrap { padding: 0 24px 64px; margin-top: -24px; display: flex; justify-content: center; }
+  .paper-frame { position: relative; display: flex; align-items: center; justify-content: center; overflow: visible; width: 100%; aspect-ratio: 1536 / 1024; }
+  .paper-mask {
+    position: absolute; inset: 0;
+    background-image: url('/assets/resume/asset-papier-07.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-mask-image: url('/assets/resume/asset-papier-07.png');
+    -webkit-mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-image: url('/assets/resume/asset-papier-07.png');
+    mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .article { position: relative; z-index: 1; width: min(1080px, 94vw); box-sizing: border-box; padding: 130px; background: none; box-shadow: none; }
+  .kicker-row { display: flex; justify-content: space-between; align-items: baseline; font: 700 10.5px 'Work Sans', sans-serif; color: var(--brown-muted); letter-spacing: .16em; text-transform: uppercase; }
+  .download { font: 600 13px 'Work Sans', sans-serif; color: var(--orange-text); text-transform: none; letter-spacing: 0; }
+  h1 { font-family: 'Fraunces', serif; font-optical-sizing: auto; font-weight: 600; letter-spacing: -.01em; font-size: 46px; margin-top: 14px; }
+  .subtitle { font: 400 14px 'Work Sans', sans-serif; color: var(--brown-soft); margin-top: 4px; }
+  .summary { font: 400 14px/1.6 Georgia, serif; color: var(--brown); margin-top: 18px; max-width: 100%; }
+  .resume-grid { display: grid; grid-template-columns: 1fr 1px 220px; gap: 28px; margin-top: 28px; }
+  .divider { background: var(--divider); }
+  .block { margin-bottom: 26px; }
+  .block h3 { font-size: 20px; border-bottom: 1px solid var(--rule); padding-bottom: 6px; margin-bottom: 12px; }
+  .main .block h3 { font-size: 22px; }
+  .entry { font: 400 14.5px/1.55 Georgia, serif; color: var(--brown); margin-bottom: 18px; }
+  .entry-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .entry .dates { font: 600 12px 'Work Sans', sans-serif; color: var(--brown-muted); white-space: nowrap; }
+  .entry .sub { font: italic 400 13px Georgia, serif; color: var(--brown-soft); margin: 2px 0 6px; }
+  .entry ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 3px; }
+  .edu-row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font: 400 14px/1.5 Georgia, serif; color: var(--brown); margin-bottom: 8px; }
+  .edu-row .dates { font: 600 12px 'Work Sans', sans-serif; color: var(--brown-muted); }
+  .side p { font: 400 13.5px/1.65 Georgia, serif; color: var(--brown); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font: 600 11px 'Work Sans', sans-serif; padding: 4px 10px; border-radius: 999px; }
+  .lang-row { display: flex; justify-content: space-between; align-items: center; font: 500 13px 'Work Sans', sans-serif; color: var(--brown); margin-bottom: 6px; }
+  .dots { letter-spacing: 2px; color: var(--orange); font-size: 12px; }
+  .dots .off { color: #D8C4A6; }
+  .links { display: flex; flex-direction: column; gap: 4px; font: 600 13px 'Work Sans', sans-serif; }
+  .links a { color: var(--orange-text); }
+  .links a.mail { color: var(--brown); font-weight: 500; }
+  @media (max-width: 720px) { .resume-grid { grid-template-columns: 1fr; } .resume-grid .divider { display: none; } }
+</style>
+
+<script>
+  function fitPaperToContent() {
+    const frame = document.getElementById('paper-frame');
+    const article = document.getElementById('paper-article');
+    if (!frame || !article) return;
+    const nativeW = parseFloat(frame.dataset.nativeW || '1536');
+    const nativeH = parseFloat(frame.dataset.nativeH || '1024');
+
+    frame.style.width = '';
+    frame.style.height = '';
+    const contentW = article.offsetWidth;
+    const contentH = article.offsetHeight;
+
+    const scale = Math.max(contentW / nativeW, contentH / nativeH);
+    const frameW = nativeW * scale;
+    const frameH = nativeH * scale;
+
+    frame.style.width = frameW + 'px';
+    frame.style.height = frameH + 'px';
+  }
+
+  let raf: number;
+  function scheduleFit() {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(fitPaperToContent);
+  }
+
+  fitPaperToContent();
+  window.addEventListener('load', fitPaperToContent);
+  window.addEventListener('resize', scheduleFit);
+  document.addEventListener('astro:page-load', fitPaperToContent);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(fitPaperToContent);
+  }
+
+  const article = document.getElementById('paper-article');
+  if (article && 'ResizeObserver' in window) {
+    new ResizeObserver(scheduleFit).observe(article);
+  }
+</script>

@@ -1,0 +1,613 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import i18n from '../../../data/i18n.json';
+import { getCollection } from 'astro:content';
+
+const lang = 'fr';
+const t = (i18n as any)[lang];
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => data.language === 'fr');
+  const sorted = projects.sort((a, b) => a.data.order - b.data.order);
+  return sorted.map((project, i) => ({
+    params: { slug: project.data.projectSlug },
+    props: { project, prev: sorted[(i - 1 + sorted.length) % sorted.length], next: sorted[(i + 1) % sorted.length] },
+  }));
+}
+
+const { project, prev, next } = Astro.props;
+const d = project.data;
+
+function youtubeEmbedUrl(url?: string) {
+  if (!url) return null;
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]{11})/);
+  return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+}
+const embedUrl = youtubeEmbedUrl(d.videoUrl);
+const animaticEmbedUrl = youtubeEmbedUrl(d.animaticUrl);
+---
+<BaseLayout lang={lang} title={d.title} description={d.shortDescription}>
+  <div class="opening" style={`background-image:url(${d.coverImage});background-position:${d.coverPosition}`}>
+    <span class="opening-label">{d.badgeLabel || `${d.title} · ${d.category}`}</span>
+  </div>
+
+  <div class="container project-body">
+    <div class="main-col">
+      {d.kicker && <div class="kicker">{d.kicker}</div>}
+      <div class="title-row">
+        <h1>{d.title}</h1>
+        <span class="year">{d.yearLabel || d.year}</span>
+      </div>
+
+      {d.posterImage ? (
+        <div class="poster-row">
+          <div class="poster lightbox-item" data-lightbox-src={d.posterImage}>
+            <img src={d.posterImage} alt={`${d.title} — affiche`} loading="lazy" />
+          </div>
+          <div class="synopsis-col">
+            <div class="synopsis-label">{t.project.synopsis}</div>
+            <p class="desc">{d.shortDescription}</p>
+            {d.quote && <p class="quote">« {d.quote} »</p>}
+          </div>
+        </div>
+      ) : (
+        <p class="desc lead">{d.shortDescription}</p>
+      )}
+
+      {d.hasVideo && (
+        <div class="section">
+          {d.videoSectionTitle && (
+            <div class="section-head">
+              <h2>{d.videoSectionTitle}</h2>
+              {d.videoCaption && <span class="caption-italic">{d.videoCaption}</span>}
+            </div>
+          )}
+          {embedUrl ? (
+            <div class="video-embed">
+              <iframe
+                src={embedUrl}
+                title={d.videoCaption || `${d.title} vidéo`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                loading="lazy"
+              ></iframe>
+            </div>
+          ) : (
+            <div class="video-slot">
+              <div class="play-btn"><span class="triangle"></span></div>
+              {!d.videoSectionTitle && d.videoCaption && <span class="video-label">[ {d.videoCaption} ]</span>}
+            </div>
+          )}
+        </div>
+      )}
+
+      {d.decors.length > 0 && (
+        <div class="section">
+          <div class="section-head">
+            <h2>{d.decorsSectionTitle || t.project.decors}</h2>
+            <span class="caption-italic">{d.decorsCaption || t.project.clickToEnlarge}</span>
+          </div>
+          <div class:list={["decors-grid", d.decorsLayout]}>
+            {d.decors.map((img: any, i: number) => (
+              <div class:list={["tile", "lightbox-item", { wide: img.wide }]} data-lightbox-src={img.src}>
+                <img src={img.src} alt={img.alt || `${d.title} — décor ${i + 1}`} loading="lazy" style={img.position ? `object-position:${img.position}` : undefined} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {d.characterGroups.length > 0 && (
+        <div class="section">
+          <div class="section-head">
+            <h2>{t.project.characters}</h2>
+            <span class="caption-italic">{t.project.characterCaption}</span>
+          </div>
+          {d.characterGroups.map((group: any) => (
+            <div class="char-group">
+              <div class="char-group-name">{group.name}</div>
+              {group.layout === 'stacked' ? (
+                <div class="char-stack">
+                  {group.images.map((img: any, i: number) => (
+                    <div class="lightbox-item" data-lightbox-src={img.src}>
+                      <img src={img.src} alt={img.alt || `${group.name} — ${i + 1}`} loading="lazy" />
+                    </div>
+                  ))}
+                </div>
+              ) : group.layout === 'stacked-grid' ? (
+                <>
+                  <div class="char-stack">
+                    {group.images.slice(0, 2).map((img: any, i: number) => (
+                      <div class="lightbox-item" data-lightbox-src={img.src}>
+                        <img src={img.src} alt={img.alt || `${group.name} — ${i + 1}`} loading="lazy" />
+                      </div>
+                    ))}
+                  </div>
+                  <div class="char-extra-grid">
+                    {group.images.slice(2).map((img: any, i: number) => (
+                      <div class="lightbox-item" data-lightbox-src={img.src}>
+                        <img src={img.src} alt={img.alt || `${group.name} — ${i + 3}`} loading="lazy" />
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : group.layout === 'grid2wide' ? (
+                <div class="char-pairs">
+                  {group.images.map((img: any, i: number) => (
+                    <div class:list={["lightbox-item", { wide: img.wide }]} data-lightbox-src={img.src}>
+                      <img src={img.src} alt={img.alt || `${group.name} — ${i + 1}`} loading="lazy" />
+                    </div>
+                  ))}
+                </div>
+              ) : group.layout === 'main-top' ? (
+                <div class="char-main-top">
+                  <div class="char-main-full lightbox-item" data-lightbox-src={group.images[0].src}>
+                    <img src={group.images[0].src} alt={`${group.name} — 1`} loading="lazy" />
+                  </div>
+                  <div class="char-grid-below">
+                    {group.images.slice(1).map((img: any, i: number) => (
+                      <div class="lightbox-item" data-lightbox-src={img.src}>
+                        <img src={img.src} alt={`${group.name} — ${i + 2}`} loading="lazy" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div class="char-row">
+                  <div class="char-main lightbox-item" data-lightbox-src={group.images[0].src}>
+                    <img src={group.images[0].src} alt={`${group.name} — 1`} loading="lazy" />
+                  </div>
+                  <div class="char-grid">
+                    {group.images.slice(1).map((img: any, i: number) => (
+                      <div class="lightbox-item" data-lightbox-src={img.src}>
+                        <img src={img.src} alt={`${group.name} — ${i + 2}`} loading="lazy" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {d.storyboardImages.length > 0 && (
+        <div class="section">
+          <div class="section-head">
+            <h2>{t.project.storyboard}</h2>
+            <span class="caption-italic">{t.project.storyboardCaption}</span>
+          </div>
+          {d.hasAnimatic && (
+            animaticEmbedUrl ? (
+              <div class="video-embed" style="margin-bottom:16px">
+                <iframe
+                  src={animaticEmbedUrl}
+                  title="Animatique"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                  loading="lazy"
+                ></iframe>
+              </div>
+            ) : d.animaticUrl ? (
+              <a class="video-slot" href={d.animaticUrl} target="_blank" rel="noopener" style="margin-bottom:16px">
+                <div class="play-btn"><span class="triangle"></span></div>
+                <span class="video-label">[ voir l'animatique sur ArtStation ]</span>
+              </a>
+            ) : (
+              <div class="video-slot" style="margin-bottom:16px">
+                <div class="play-btn"><span class="triangle"></span></div>
+              </div>
+            )
+          )}
+        </div>
+      )}
+
+      {(d.colorScript.length > 0 || d.colorScriptImage) && (
+        <div class="section">
+          <div class="section-head">
+            <h2>{t.project.colorScript}</h2>
+            <span class="caption-italic">{t.project.colorScriptCaption}</span>
+          </div>
+          {d.colorScriptImage ? (
+            <div class="color-script-image lightbox-item" data-lightbox-src={d.colorScriptImage}>
+              <img src={d.colorScriptImage} alt={t.project.colorScript} loading="lazy" />
+            </div>
+          ) : (
+            <div class="color-script">
+              {d.colorScript.map((c: string) => <div class="swatch" style={`background:${c}`}></div>)}
+            </div>
+          )}
+        </div>
+      )}
+
+      {(d.researchGroups.length > 0 || d.researchVideos.length > 0) && (
+        <div class="section">
+          <div class="section-head">
+            <h2>{d.researchSectionTitle || t.project.research}</h2>
+            <span class="caption-italic">{t.project.researchCaption}</span>
+          </div>
+          {d.researchGroups.map((group: any) => (
+            <div class="char-group">
+              <div class="char-group-name">{group.name}</div>
+              {group.layout === 'stacked' ? (
+                <div class="char-stack">
+                  {group.images.map((img: any, i: number) => (
+                    <div class="lightbox-item" data-lightbox-src={img.src}>
+                      <img src={img.src} alt={img.alt || `${group.name} — ${i + 1}`} loading="lazy" />
+                    </div>
+                  ))}
+                </div>
+              ) : group.layout === 'stacked-grid' ? (
+                <>
+                  <div class="char-stack">
+                    {group.images.slice(0, 2).map((img: any, i: number) => (
+                      <div class="lightbox-item" data-lightbox-src={img.src}>
+                        <img src={img.src} alt={img.alt || `${group.name} — ${i + 1}`} loading="lazy" />
+                      </div>
+                    ))}
+                  </div>
+                  <div class="char-extra-grid">
+                    {group.images.slice(2).map((img: any, i: number) => (
+                      <div class="lightbox-item" data-lightbox-src={img.src}>
+                        <img src={img.src} alt={img.alt || `${group.name} — ${i + 3}`} loading="lazy" />
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : group.layout === 'grid2wide' ? (
+                <div class="char-pairs">
+                  {group.images.map((img: any, i: number) => (
+                    <div class:list={["lightbox-item", { wide: img.wide }]} data-lightbox-src={img.src}>
+                      <img src={img.src} alt={img.alt || `${group.name} — ${i + 1}`} loading="lazy" />
+                    </div>
+                  ))}
+                </div>
+              ) : group.layout === 'grid4' ? (
+                <div class="decors-grid grid4">
+                  {group.images.map((img: any, i: number) => (
+                    <div class:list={["tile", "lightbox-item", { wide: img.wide }]} data-lightbox-src={img.src}>
+                      <img src={img.src} alt={img.alt || `${group.name} — ${i + 1}`} loading="lazy" />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div class="char-row">
+                  <div class="char-main lightbox-item" data-lightbox-src={group.images[0].src}>
+                    <img src={group.images[0].src} alt={`${group.name} — 1`} loading="lazy" />
+                  </div>
+                  <div class="char-grid">
+                    {group.images.slice(1).map((img: any, i: number) => (
+                      <div class="lightbox-item" data-lightbox-src={img.src}>
+                        <img src={img.src} alt={`${group.name} — ${i + 2}`} loading="lazy" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+          {d.researchVideos.map((v: any) => (
+            <div class="char-group">
+              <div class="char-group-name">{v.name}</div>
+              <video class="research-video" src={v.src} controls loop muted playsinline></video>
+            </div>
+          ))}
+        </div>
+      )}
+
+
+      {d.finalGallery.length > 0 && (
+        <div class="final-gallery">
+          {d.finalGallery.map((img: any, i: number) => (
+            <div class:list={["lightbox-item", { wide: img.wide }]} data-lightbox-src={img.src}>
+              <img src={img.src} alt={img.alt || `${d.title} — final ${i + 1}`} loading="lazy" />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {d.process.length > 0 && (
+        <div class="process paper-card">
+          <div class="masthead-rule process-head">
+            <span>{t.project.process}</span>
+            <span class="caption-italic">{d.processCaption || t.project.processCaption}</span>
+          </div>
+          <div class="process-grid" style={`grid-template-columns:repeat(${d.process.length}, 1fr)`}>
+            {d.process.map((step: any) => (
+              <div>
+                <div class="lightbox-item" data-lightbox-src={step.image}><img src={step.image} alt={step.caption} loading="lazy" /></div>
+                <div class="fig-caption">{step.caption}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {d.vectorization.length > 0 && (
+        <div class="section">
+          <div class="section-head">
+            <h2>{d.vectorizationSectionTitle || t.project.decors}</h2>
+            <span class="caption-italic">{d.vectorizationCaption}</span>
+          </div>
+          <div class="decors-grid grid4">
+            {d.vectorization.map((img: any, i: number) => (
+              <div class="tile lightbox-item" data-lightbox-src={img.src}>
+                <img src={img.src} alt={img.alt || `${d.title} — ${i + 1}`} loading="lazy" />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {d.illustrations.length > 0 && (
+        <div class="section">
+          <div class="section-head">
+            <h2>{t.project.illustrations}</h2>
+            <span class="caption-italic">{t.project.illustrationsCaption}</span>
+          </div>
+          <div class="illustrations-grid">
+            {d.illustrations.map((img: any, i: number) => (
+              <div class="lightbox-item" data-lightbox-src={img.src}>
+                <img src={img.src} alt={img.alt || `${d.title} — ${i + 1}`} loading="lazy" />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {d.palettes.length > 0 && (
+        <div class="section">
+          <div class="section-head">
+            <h2>{d.palettes.length > 1 ? t.project.palettes : t.project.palette}</h2>
+            <span class="caption-italic">{d.palettes.length > 1 ? t.project.palettesCaption : t.project.paletteCaption}</span>
+          </div>
+          <div class:list={["palettes", { split: d.palettes.length > 1 }]}>
+            {d.palettes.map((p: any) => (
+              <div class="palette-group">
+                {p.label && <div class="palette-label">{p.label}</div>}
+                <div class="palette-row">
+                  {p.colors.map((c: string) => <div class="swatch sm" style={`background:${c}`}></div>)}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div class="skills-box">
+        <h3>{t.project.skillsShown}</h3>
+        <div class="chips">
+          {d.skillsShown.map((s: string) => <span class="chip">{s}</span>)}
+        </div>
+      </div>
+    </div>
+
+    <aside class="sidebar paper-card">
+      <div class="field"><span class="label">{t.project.role}</span><span class="value">{d.role}</span></div>
+      <div class="field"><span class="label">{t.project.year}</span><span class="value">{d.yearLabel || d.year}</span></div>
+      <div class="field"><span class="label">{t.project.category}</span><span class="value">{d.category}</span></div>
+      <div class="field">
+        <span class="label">{t.project.tags}</span>
+        <div class="chips">{d.tags.map((tag: string) => <span class="chip">{tag}</span>)}</div>
+      </div>
+      <a class="btn btn-primary" href={`/${lang}/contact/`}>{t.project.contactCta}</a>
+    </aside>
+  </div>
+
+  <nav class="prev-next">
+    <a href={`/${lang}/portfolio/${prev.data.projectSlug}/`}>← {prev.data.title}</a>
+    <a class="back" href={`/${lang}/portfolio/`}>{t.project.back}</a>
+    <a href={`/${lang}/portfolio/${next.data.projectSlug}/`}>{next.data.title} →</a>
+  </nav>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Fermer">✕</button>
+    <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Image précédente">‹</button>
+    <img id="lightbox-img" src="" alt="" />
+    <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Image suivante">›</button>
+  </div>
+</BaseLayout>
+
+<style>
+  .opening { height: 480px; background-color: #EFDFC9; background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 28px 64px; }
+  .opening-label { font: 600 12px 'Work Sans', sans-serif; color: #FFF6E8; background: rgba(30,18,8,.55); padding: 8px 16px; border-radius: 999px; text-transform: uppercase; letter-spacing: .06em; }
+  .project-body { display: grid; grid-template-columns: 1fr 320px; gap: 56px; padding: 56px 24px; max-width: 1180px; }
+  .kicker { font: 700 12px 'Work Sans', sans-serif; color: var(--orange-text); letter-spacing: .18em; text-transform: uppercase; border-top: 2px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 6px 0; display: inline-block; width: fit-content; margin-bottom: 24px; }
+  .title-row { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  h1 { font-size: 52px; line-height: 1; }
+  .year { font-family: 'Caveat', cursive; font-size: 22px; color: var(--orange-text); transform: rotate(-2deg); display: inline-block; }
+  .desc { font: 400 16px/1.7 Georgia, serif; color: var(--brown); }
+  .desc.lead { font: 400 17px/1.65 'Work Sans', sans-serif; color: #4A3320; max-width: 640px; margin-top: 20px; }
+  .poster-row { display: grid; grid-template-columns: 300px 1fr; gap: 32px; align-items: start; margin-top: 20px; }
+  .poster { aspect-ratio: 2/3; border-radius: 2px; overflow: hidden; box-shadow: 0 12px 24px rgba(20,10,4,.2); cursor: zoom-in; }
+  .poster img { width: 100%; height: 100%; object-fit: cover; }
+  .synopsis-col { display: flex; flex-direction: column; gap: 12px; }
+  .synopsis-label { font: 700 11px 'Work Sans', sans-serif; color: var(--brown-muted); letter-spacing: .14em; text-transform: uppercase; border-bottom: 1px solid var(--divider); padding-bottom: 8px; }
+  .quote { font: italic 400 14px Georgia, serif; color: var(--brown-soft); border-left: 2px solid var(--orange); padding-left: 14px; margin-top: 4px; }
+
+  .section { margin-top: 32px; }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--rule); padding-bottom: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .section-head h2 { font-size: 24px; }
+  .caption-italic { font: italic 400 12.5px Georgia, serif; color: var(--brown-soft); }
+
+  .video-slot { background: #1c1714; border-radius: 2px; box-shadow: 0 0 0 1px rgba(40,25,10,.15); aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; position: relative; text-decoration: none; cursor: pointer; }
+  .video-embed { aspect-ratio: 16/9; border-radius: 2px; overflow: hidden; box-shadow: 0 0 0 1px rgba(40,25,10,.15); }
+  .video-embed iframe { width: 100%; height: 100%; border: 0; }
+  .play-btn { width: 70px; height: 70px; border-radius: 50%; background: rgba(251,243,228,.92); display: flex; align-items: center; justify-content: center; }
+  .triangle { width: 0; height: 0; border-top: 14px solid transparent; border-bottom: 14px solid transparent; border-left: 22px solid var(--orange); margin-left: 4px; }
+  .video-label { position: absolute; bottom: 14px; left: 18px; font: 11px ui-monospace, monospace; color: #C9A87E; }
+
+  .decors-grid { display: grid; gap: 14px; }
+  .decors-grid.grid4 { grid-template-columns: repeat(4, 1fr); }
+  .decors-grid.grid4 .tile { aspect-ratio: 4/3; }
+  .decors-grid.grid4 .tile.wide { grid-column: span 2; aspect-ratio: 8/3; }
+  .decors-grid.grid2wide { grid-template-columns: repeat(2, 1fr); }
+  .decors-grid.grid2wide .tile { aspect-ratio: 16/10; }
+  .decors-grid.portraitfull { grid-template-columns: repeat(2, 1fr); }
+  .decors-grid.portraitfull .tile { aspect-ratio: auto; cursor: zoom-in; }
+  .decors-grid.portraitfull .tile img { width: 100%; height: auto; object-fit: contain; }
+  .decors-grid.finalgallery { grid-template-columns: repeat(2, 1fr); }
+  .decors-grid.finalgallery .tile { height: 220px; }
+  .decors-grid.finalgallery .tile.wide { grid-column: span 2; height: 320px; }
+  .tile { border-radius: 2px; overflow: hidden; cursor: zoom-in; background: #F2E4D4; }
+  .tile img { width: 100%; height: 100%; object-fit: cover; }
+
+  .char-group { margin-top: 18px; }
+  .char-group-name { font: 600 13px 'Work Sans', sans-serif; color: var(--orange-text); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; }
+  .research-video { width: 100%; border-radius: 2px; box-shadow: 0 0 0 1px rgba(40,25,10,.15); background: #000; display: block; }
+  .char-row { display: flex; gap: 12px; }
+  .char-main { flex: 0 0 58%; aspect-ratio: 4/3; border-radius: 2px; overflow: hidden; cursor: zoom-in; }
+  .char-main img { width: 100%; height: 100%; object-fit: cover; }
+  .char-grid { flex: 1; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .char-grid > div { aspect-ratio: 1/1; border-radius: 2px; overflow: hidden; cursor: zoom-in; }
+  .char-grid img { width: 100%; height: 100%; object-fit: cover; }
+
+  .char-stack { display: flex; flex-direction: column; gap: 14px; }
+  .char-stack > div { border-radius: 2px; overflow: hidden; cursor: zoom-in; background: #F2E4D4; }
+  .char-stack img { width: 100%; height: auto; display: block; }
+
+  .char-main-top { display: flex; flex-direction: column; gap: 14px; }
+  .char-main-full { border-radius: 2px; overflow: hidden; cursor: zoom-in; }
+  .char-main-full img { width: 100%; height: auto; display: block; }
+  .char-grid-below { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .char-grid-below > div { border-radius: 2px; overflow: hidden; cursor: zoom-in; }
+  .char-grid-below img { width: 100%; height: auto; display: block; }
+
+  .char-extra-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px; }
+  .char-extra-grid > div { aspect-ratio: 3/4; border-radius: 2px; overflow: hidden; cursor: zoom-in; background: #F2E4D4; }
+  .char-extra-grid img { width: 100%; height: 100%; object-fit: cover; }
+
+  .char-pairs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .char-pairs > div { aspect-ratio: 2/3; border-radius: 2px; overflow: hidden; cursor: zoom-in; background: #F2E4D4; }
+  .char-pairs > div.wide { grid-column: span 2; aspect-ratio: 16/9; }
+  .char-pairs img { width: 100%; height: 100%; object-fit: cover; }
+
+  .storyboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .storyboard-grid > div { aspect-ratio: 16/9; border-radius: 2px; overflow: hidden; cursor: zoom-in; }
+  .storyboard-grid img { width: 100%; height: 100%; object-fit: cover; }
+
+  .color-script { display: flex; gap: 10px; }
+  .swatch { flex: 1; height: 120px; border-radius: 2px; }
+  .color-script-image { border-radius: 2px; overflow: hidden; cursor: zoom-in; }
+  .color-script-image img { width: 100%; height: auto; display: block; }
+  .swatch.sm { height: 70px; }
+
+  .final-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+  .final-gallery > div { border-radius: 2px; overflow: hidden; cursor: zoom-in; height: 220px; }
+  .final-gallery > div.wide { grid-column: span 2; height: 320px; }
+  .final-gallery img { width: 100%; height: 100%; object-fit: cover; }
+
+  .illustrations-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .illustrations-grid > div { aspect-ratio: 1/1; border-radius: 2px; overflow: hidden; cursor: zoom-in; }
+  .illustrations-grid img { width: 100%; height: 100%; object-fit: cover; }
+
+  .palettes { display: grid; gap: 24px; }
+  .palettes.split { grid-template-columns: 1fr 1fr; }
+  .palette-label { font: 600 11px 'Work Sans', sans-serif; color: var(--brown-muted); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
+  .palette-row { display: flex; gap: 8px; }
+
+  .process { margin-top: 32px; padding: 30px 36px 34px; background-image: none; background-color: var(--chip-bg); border-radius: 4px; }
+  .process-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 22px; }
+  .process-head span:first-child { font-family: 'Fraunces', serif; font-optical-sizing: auto; font-weight: 600; font-size: 28px; color: var(--ink); }
+  .process-grid { display: grid; gap: 20px; }
+  .process-grid .lightbox-item { aspect-ratio: 4/3; border-radius: 2px; overflow: hidden; cursor: zoom-in; }
+  .process-grid img { width: 100%; height: 100%; object-fit: cover; }
+  .fig-caption { font: italic 400 12px Georgia, serif; color: var(--brown-soft); margin-top: 8px; text-align: center; }
+
+  .skills-box { margin-top: 32px; background: var(--chip-bg); border-radius: 4px; padding: 28px 32px; }
+  .skills-box h3 { font-size: 22px; margin-bottom: 12px; }
+  .skills-box .chip { background: #FFFBF2; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .sidebar { align-self: start; padding: 28px 30px; display: flex; flex-direction: column; gap: 16px; transform: rotate(.6deg); box-shadow: 0 10px 22px rgba(20,10,4,.16); background-image: none; background-color: var(--chip-bg); }
+  .field { display: flex; flex-direction: column; gap: 2px; }
+  .label { font: 700 11px 'Work Sans', sans-serif; color: var(--brown-muted); letter-spacing: .1em; text-transform: uppercase; }
+  .value { font: 500 14.5px 'Work Sans', sans-serif; color: var(--ink); }
+  .sidebar .chips .chip { font-size: 11px; padding: 4px 10px; }
+
+  .prev-next { display: flex; justify-content: space-between; align-items: center; padding: 28px 64px; border-top: 2px solid var(--rule); background: #F0E0C8; font: 600 20px 'Work Sans', sans-serif; }
+  .prev-next a { color: var(--brown-soft); }
+  .prev-next a:last-child { color: var(--orange-text); }
+  .prev-next .back { font-weight: 500; color: var(--brown-soft); }
+
+  .lightbox { position: fixed; inset: 0; background: rgba(10,6,3,.88); display: none; align-items: center; justify-content: center; z-index: 100; cursor: zoom-out; padding: 40px; }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; box-shadow: 0 30px 60px rgba(0,0,0,.5); }
+  .lightbox-close { position: absolute; top: 28px; right: 34px; background: none; border: 0; color: #FBF3E4; font: 600 20px 'Work Sans', sans-serif; cursor: pointer; z-index: 2; }
+  .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(30,18,8,.55); border: 0; color: #FBF3E4; font-size: 34px; line-height: 1; width: 54px; height: 54px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .15s; z-index: 2; }
+  .lightbox-nav:hover { background: rgba(30,18,8,.85); }
+  .lightbox-prev { left: 20px; }
+  .lightbox-next { right: 20px; }
+
+  @media (max-width: 860px) {
+    .opening { padding: 24px; }
+    .project-body { grid-template-columns: 1fr; padding: 40px 20px; gap: 32px; }
+    .poster-row { grid-template-columns: 1fr; }
+    .decors-grid.grid4, .storyboard-grid, .illustrations-grid { grid-template-columns: repeat(2, 1fr); }
+    .final-gallery, .palettes.split, .decors-grid.finalgallery, .decors-grid.portraitfull { grid-template-columns: 1fr; }
+    .final-gallery > div.wide, .decors-grid.finalgallery .tile.wide { grid-column: span 1; }
+    .char-row { flex-direction: column; }
+    .char-main { flex: none; aspect-ratio: 16/10; }
+    .char-grid-below { grid-template-columns: 1fr; }
+    .prev-next { flex-direction: column; gap: 10px; padding: 24px; text-align: center; }
+    .lightbox { padding: 16px; }
+    .lightbox-nav { width: 42px; height: 42px; font-size: 26px; }
+    .lightbox-prev { left: 6px; }
+    .lightbox-next { right: 6px; }
+  }
+</style>
+
+<script>
+  const items = Array.from(document.querySelectorAll<HTMLElement>('.lightbox-item'));
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+  const closeBtn = document.getElementById('lightbox-close');
+  const prevBtn = document.getElementById('lightbox-prev');
+  const nextBtn = document.getElementById('lightbox-next');
+  let lastFocused: HTMLElement | null = null;
+  let currentIndex = -1;
+
+  function showIndex(i: number) {
+    if (!lightboxImg || items.length === 0) return;
+    currentIndex = (i + items.length) % items.length;
+    const src = items[currentIndex].dataset.lightboxSrc;
+    if (src) lightboxImg.src = src;
+  }
+  function openLightbox(index: number, trigger: HTMLElement) {
+    if (!lightbox) return;
+    showIndex(index);
+    lightbox.classList.add('open');
+    lastFocused = trigger;
+  }
+  function closeLightbox() {
+    if (!lightbox) return;
+    lightbox.classList.remove('open');
+    lastFocused?.scrollIntoView({ block: 'center', behavior: 'instant' as ScrollBehavior });
+  }
+
+  items.forEach((el, i) => {
+    el.addEventListener('click', () => openLightbox(i, el));
+  });
+  prevBtn?.addEventListener('click', (e) => { e.stopPropagation(); showIndex(currentIndex - 1); });
+  nextBtn?.addEventListener('click', (e) => { e.stopPropagation(); showIndex(currentIndex + 1); });
+  closeBtn?.addEventListener('click', closeLightbox);
+  lightbox?.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+  window.addEventListener('keydown', (e) => {
+    if (!lightbox?.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') showIndex(currentIndex - 1);
+    if (e.key === 'ArrowRight') showIndex(currentIndex + 1);
+  });
+
+  const autoplayVideos = Array.from(document.querySelectorAll<HTMLVideoElement>('.research-video'));
+  if (autoplayVideos.length > 0) {
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const video = entry.target as HTMLVideoElement;
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      });
+    }, { threshold: 0.5 });
+    autoplayVideos.forEach((v) => videoObserver.observe(v));
+  }
+</script>
