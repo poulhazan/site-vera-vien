@@ -70,7 +70,7 @@
     "contact": {
       "kicker": "Contact",
       "title": "Available for animation, illustration, publishing and freelance opportunities.",
-      "sub": "Write to me, I answer fast!",
+      "sub": "Write to me — I reply fast!",
       "name": "Name", "email": "Email", "studio": "Studio / Organization (optional)", "message": "Message",
       "namePh": "Your name", "emailPh": "you@example.com", "studioPh": "Studio name", "messagePh": "Tell me about your project or opportunity…",
       "send": "Send message"
@@ -84,7 +84,7 @@
     }
   },
   "fr": {
-    "nav": { "portfolio": "Portfolio", "sketchbook": "Sketchbook", "reel": "Demo Reel", "about": "À propos", "contact": "Contact", "resume": "CV" },
+    "nav": { "portfolio": "Portfolio", "sketchbook": "Cahier de croquis", "reel": "Demo Reel", "about": "À propos", "contact": "Contact", "resume": "CV" },
     "home": {
       "kicker": "Portfolio · Vol. I",
       "title": "Vera Vien",
@@ -94,9 +94,9 @@
       "ctaReel": "Demo Reel",
       "ctaResume": "CV",
       "ctaContact": "Contact",
-      "selectedWork": "Selected Work",
+      "selectedWork": "Travaux sélectionnés",
       "viewAll": "Voir tous les projets →",
-      "availability": "Disponible pour l'animation, l'édition jeunesse, le layout, le visual development et le freelance.",
+      "availability": "Disponible pour l'animation, l'édition jeunesse, le layout, le développement visuel et le freelance.",
       "quote": "L'inspiration est partout autour de nous, il suffit d'ouvrir les yeux.",
       "categories": ["Décors", "Livres jeunesse", "Layout & Visdev", "Design de personnages"]
     },
@@ -108,7 +108,7 @@
       "viewProject": "Voir le projet →"
     },
     "project": {
-      "role": "Rôle", "year": "Année", "category": "Catégorie", "tags": "Tags",
+      "role": "Rôle", "year": "Année", "category": "Catégorie", "tags": "Mots-clés",
       "process": "Processus", "processCaption": "Du croquis au décor final",
       "skillsShown": "Ce que ce projet démontre",
       "contactCta": "Me contacter pour ce projet",
@@ -140,8 +140,8 @@
       "text4": "Et lorsque je ne dessine pas, je suis souvent dehors. J'aime la randonnée, les grands espaces et particulièrement le bord de mer, avec une affection toute particulière pour le Finistère, en Bretagne.",
       "traits": ["Énergique", "Drôle", "Douce", "Rétro"],
       "ctaResume": "Télécharger le CV",
-      "sketches": "Latest Sketches",
-      "sketchesSub": "Tirés de mon carnet & d'Instagram",
+      "sketches": "Derniers croquis",
+      "sketchesSub": "Tirés de mon carnet et d'Instagram",
       "sketchesNote": "Mis à jour manuellement — plus tard : import semi-automatique depuis Instagram."
     },
     "resume": {
@@ -155,7 +155,7 @@
       "kicker": "Contact",
       "title": "Disponible pour l'animation, l'illustration, l'édition et le freelance.",
       "sub": "Écrivez-moi, je réponds vite !",
-      "name": "Nom", "email": "E-mail", "studio": "Studio / Organisation (optionnel)", "message": "Message",
+      "name": "Nom", "email": "Courriel", "studio": "Studio / Organisation (optionnel)", "message": "Message",
       "namePh": "Votre nom", "emailPh": "vous@exemple.com", "studioPh": "Nom du studio", "messagePh": "Parlez-moi de votre projet ou de votre offre…",
       "send": "Envoyer le message"
     },

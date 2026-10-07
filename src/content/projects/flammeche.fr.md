@@ -8,7 +8,7 @@ category: "Animation — Court métrage"
 tags: ["Réalisation", "Color", "Décor", "Layout", "Design de personnages", "Développement visuel", "Scénarimage", "Croquis / Processus"]
 featured: true
 order: 3
-kicker: "Feature Story"
+kicker: "Court métrage étudiant"
 badgeLabel: "Flammèche · Court métrage d'animation"
 coverImage: "/assets/images/projects/flammeche/opening.jpg"
 posterImage: "/assets/images/projects/flammeche/poster.jpg"

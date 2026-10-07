@@ -9,7 +9,7 @@ category: "Animation — Série (YouTube)"
 tags: ["Props", "Model sheet", "Harmony", "Layout", "Scénarimage"]
 featured: true
 order: 2
-kicker: "Series Production"
+kicker: "Production de série"
 badgeLabel: "Wild Manes · Série d'animation — YouTube"
 coverImage: "/assets/images/projects/wild-manes/opening.jpg"
 coverPosition: "center 32%"

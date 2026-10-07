@@ -8,7 +8,7 @@ category: "Illustration — Série personnelle"
 tags: ["Illustration", "Rétro 70s", "Color"]
 featured: true
 order: 5
-kicker: "Personal Series"
+kicker: "Série personnelle"
 badgeLabel: "Ex-fan des seventies · Série d'illustrations personnelles"
 coverImage: "/assets/images/projects/ex-fan-des-seventies/opening.jpg"
 coverPosition: "center 22%"

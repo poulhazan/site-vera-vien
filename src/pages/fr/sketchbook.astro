@@ -8,8 +8,6 @@ const t = (i18n as any)[lang];
 <BaseLayout lang={lang} title={t.nav.sketchbook}>
   <section class="stage">
     <span class="hint">{t.sketchbook.hint}</span>
-    <button class="nav-arrow left" id="prev" aria-label="Précédent">‹</button>
-    <button class="nav-arrow right" id="next" aria-label="Suivant">›</button>
 
     <img class="desk-prop prop-mug" src="/assets/images/textures/desk-mug.png" alt="" />
     <img class="desk-prop prop-brushcup" src="/assets/images/textures/desk-brushcup.png" alt="" />
@@ -17,6 +15,8 @@ const t = (i18n as any)[lang];
     <img class="desk-prop prop-cloth" src="/assets/images/textures/desk-cloth.png" alt="" />
 
     <div class="notebook" id="notebook">
+      <button class="nav-arrow left" id="prev" aria-label="Précédent">‹</button>
+      <button class="nav-arrow right" id="next" aria-label="Suivant">›</button>
       <div class="corner tl"></div>
       <div class="corner br"></div>
       <div class="pages" id="pages">
@@ -47,14 +47,20 @@ const t = (i18n as any)[lang];
   .nav-arrow {
     position: absolute; top: 50%; transform: translateY(-50%);
     width: 52px; height: 52px; border-radius: 50%;
-    background: rgba(0,0,0,.28); border: none; cursor: pointer;
+    background: rgba(20,10,4,.6); border: 1.5px solid rgba(255,246,232,.3); cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    color: #FBF3E4; font-size: 24px; z-index: 5;
+    color: #FBF3E4; font-size: 24px; z-index: 6;
+    box-shadow: 0 6px 16px rgba(0,0,0,.4);
   }
-  .nav-arrow:hover { background: rgba(0,0,0,.42); }
-  .nav-arrow.left { left: 24px; }
-  .nav-arrow.right { right: 24px; }
+  .nav-arrow:hover { background: rgba(20,10,4,.82); }
+  .nav-arrow.left { left: -20px; }
+  .nav-arrow.right { right: -20px; }
   .nav-arrow.hidden { display: none; }
+  @media (max-width: 720px) {
+    .nav-arrow.left { left: -14px; }
+    .nav-arrow.right { right: -14px; }
+    .nav-arrow { width: 40px; height: 40px; font-size: 19px; }
+  }
 
   .desk-prop { position: absolute; z-index: 2; pointer-events: none; filter: drop-shadow(0 26px 22px rgba(0,0,0,.6)); }
   .prop-pastels { top: -16%; left: -10%; width: 680px; transform: rotate(45deg); }
@@ -172,13 +178,6 @@ const t = (i18n as any)[lang];
   let mobilePage = 0;
   let isMobile = window.innerWidth < 720;
 
-  try {
-    const savedSpread = parseInt(localStorage.getItem('vv_sketch_spread'), 10);
-    const savedPage = parseInt(localStorage.getItem('vv_sketch_page'), 10);
-    if (!isNaN(savedSpread)) spreadIndex = Math.min(Math.max(savedSpread, 0), spreads.length - 1);
-    if (!isNaN(savedPage)) mobilePage = Math.min(Math.max(savedPage, 0), flatPages.length - 1);
-  } catch (e) {}
-
   const leftEl = document.getElementById('page-left');
   const rightEl = document.getElementById('page-right');
   const spreadFullEl = document.getElementById('spread-full');
@@ -252,23 +251,14 @@ const t = (i18n as any)[lang];
     nextBtn.classList.toggle('hidden', atEnd);
   }
 
-  function persist() {
-    try {
-      if (isMobile) localStorage.setItem('vv_sketch_page', String(mobilePage));
-      else localStorage.setItem('vv_sketch_spread', String(spreadIndex));
-    } catch (e) {}
-  }
-
   function next() {
     if (isMobile) mobilePage = Math.min(mobilePage + 1, flatPages.length - 1);
     else spreadIndex = Math.min(spreadIndex + 1, spreads.length - 1);
-    persist();
     render();
   }
   function prev() {
     if (isMobile) mobilePage = Math.max(mobilePage - 1, 0);
     else spreadIndex = Math.max(spreadIndex - 1, 0);
-    persist();
     render();
   }
 

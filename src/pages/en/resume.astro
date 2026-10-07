@@ -135,7 +135,15 @@ const t = (i18n as any)[lang];
   .links { display: flex; flex-direction: column; gap: 4px; font: 600 13px 'Work Sans', sans-serif; }
   .links a { color: var(--orange-text); }
   .links a.mail { color: var(--brown); font-weight: 500; }
-  @media (max-width: 720px) { .resume-grid { grid-template-columns: 1fr; } .resume-grid .divider { display: none; } }
+  @media (max-width: 720px) {
+    .resume-grid { grid-template-columns: 1fr; } .resume-grid .divider { display: none; }
+    .paper-frame { width: 100% !important; height: auto !important; aspect-ratio: auto; display: block; }
+    .paper-mask { display: none; }
+    .article {
+      width: 100%; padding: 32px 20px; box-sizing: border-box;
+      background: var(--paper); box-shadow: 0 2px 0 rgba(40,25,10,.12); border-radius: 4px;
+    }
+  }
 </style>
 
 <script>

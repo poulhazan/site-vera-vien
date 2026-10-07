@@ -13,7 +13,7 @@ const projects = (await getCollection('projects', ({ data }) => data.language ==
     <div class="masthead paper-card">
       <div class="masthead-rule kicker-row">{t.portfolio.editionLabel} · {String(projects.length).padStart(2, '0')} {t.portfolio.worksCount}</div>
       <h1>{t.portfolio.title}</h1>
-      <p class="sub">Background, illustration jeunesse, layout, visdev, character design</p>
+      <p class="sub">Décors, illustration jeunesse, layout, développement visuel, design de personnages</p>
     </div>
   </div>
 
@@ -25,7 +25,7 @@ const projects = (await getCollection('projects', ({ data }) => data.language ==
 
   <section class="toc">
     <div class="toc-head">
-      <span class="toc-kicker">In this issue</span>
+      <span class="toc-kicker">Dans ce numéro</span>
       <span class="toc-count">{projects.length} œuvres à la une</span>
     </div>
 

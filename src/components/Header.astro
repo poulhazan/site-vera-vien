@@ -14,7 +14,10 @@ const isActive = (section: string) => Astro.url.pathname.includes(`/${lang}/${se
 <header class="site-header">
   <div class="container header-inner">
     <a class="logo" href={`/${lang}/`}>VERAVIEN.CA — PORTFOLIO, VOL. 1</a>
-    <nav class="main-nav" aria-label="Main navigation">
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label={lang === 'fr' ? 'Ouvrir le menu' : 'Open menu'}>
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="main-nav" id="main-nav" aria-label={lang === 'fr' ? 'Navigation principale' : 'Main navigation'}>
       <a href={`/${lang}/portfolio/`} aria-current={isActive('portfolio') ? 'page' : undefined}>{t.nav.portfolio}</a>
       <a href={`/${lang}/sketchbook/`} aria-current={isActive('sketchbook') ? 'page' : undefined}>{t.nav.sketchbook}</a>
       <a href={`/${lang}/demo-reel/`} aria-current={isActive('demo-reel') ? 'page' : undefined}>{t.nav.reel}</a>
@@ -64,8 +67,57 @@ const isActive = (section: string) => Astro.url.pathname.includes(`/${lang}/${se
   .lang-switch a { color: var(--brown-muted); }
   .lang-switch a[aria-current='true'] { color: var(--orange-text); }
   .resume-btn { padding: 10px 20px; }
-  @media (max-width: 720px) {
-    .main-nav { gap: 14px; }
-    .header-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 38px; height: 38px;
+    border: none; background: transparent; cursor: pointer;
+    flex-shrink: 0;
+  }
+  .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: transform .2s ease, opacity .2s ease; }
+  .nav-toggle[aria-expanded='true'] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle[aria-expanded='true'] span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded='true'] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  @media (max-width: 900px) {
+    .nav-toggle { display: flex; }
+    .main-nav {
+      display: none;
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      background: var(--cream);
+      border-bottom: 2px solid var(--rule);
+      box-shadow: 0 12px 20px rgba(20,10,4,.12);
+      padding: 10px 24px 20px;
+    }
+    .main-nav.open { display: flex; }
+    .main-nav a { width: 100%; padding: 10px 0; }
+    .main-nav a[aria-current='page'] { border-bottom: none; border-left: 3px solid var(--orange); padding-left: 10px; }
+    .lang-switch { padding: 10px 0; }
+    .resume-btn { margin-top: 6px; align-self: flex-start; }
+  }
+  @media (max-width: 480px) {
+    .header-inner { padding: 14px 18px; }
+    .logo { font-size: 10.5px; max-width: 60vw; overflow: hidden; text-overflow: ellipsis; }
   }
 </style>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const nav = document.getElementById('main-nav');
+  toggle?.addEventListener('click', () => {
+    const isOpen = nav?.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  nav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
+    nav.classList.remove('open');
+    toggle?.setAttribute('aria-expanded', 'false');
+  }));
+</script>

@@ -29,7 +29,7 @@ const t = (i18n as any)[lang];
               <ul>
                 <li>Vectorisation des accessoires (Harmony) pour l'animation, optimisée d'après animatiques et scripts.</li>
                 <li>Animation d'effets visuels (FX) sur Harmony.</li>
-                <li>Découpage des animatiques (Photoshop) pour créer les model sheets de l'équipe de design.</li>
+                <li>Découpage des animatiques (Photoshop) pour créer les feuilles de modèle de l'équipe de design.</li>
                 <li>Mise à jour quotidienne en ligne et communication continue avec l'équipe et le studio.</li>
               </ul>
             </div>
@@ -58,10 +58,10 @@ const t = (i18n as any)[lang];
             <div class="chips">
               <span class="chip" style="color:#A8462E;background:#F9E9E1">Concept art — Personnage</span>
               <span class="chip" style="color:#565E31;background:#EDEFDD">Concept art — Décor</span>
-              <span class="chip" style="color:#7A5A17;background:#F7EDD3">Concept art — Props</span>
+              <span class="chip" style="color:#7A5A17;background:#F7EDD3">Concept art — Accessoires</span>
               <span class="chip" style="color:#3A5773;background:#E3EAF0">Illustration BD</span>
               <span class="chip" style="color:#A8462E;background:#F9E9E1">Illustration jeunesse</span>
-              <span class="chip" style="color:#565E31;background:#EDEFDD">Storyboarding</span>
+              <span class="chip" style="color:#565E31;background:#EDEFDD">Scénarimage</span>
             </div>
           </div>
           <div class="block"><h3>{t.resume.software}</h3><p><b>ToonBoom</b> — Harmony, Storyboard Pro<br /><b>Adobe</b> — Photoshop, InDesign, Illustrator, Premiere Pro<br />Procreate · AutoCAD · Suite Office</p></div>
@@ -135,7 +135,15 @@ const t = (i18n as any)[lang];
   .links { display: flex; flex-direction: column; gap: 4px; font: 600 13px 'Work Sans', sans-serif; }
   .links a { color: var(--orange-text); }
   .links a.mail { color: var(--brown); font-weight: 500; }
-  @media (max-width: 720px) { .resume-grid { grid-template-columns: 1fr; } .resume-grid .divider { display: none; } }
+  @media (max-width: 720px) {
+    .resume-grid { grid-template-columns: 1fr; } .resume-grid .divider { display: none; }
+    .paper-frame { width: 100% !important; height: auto !important; aspect-ratio: auto; display: block; }
+    .paper-mask { display: none; }
+    .article {
+      width: 100%; padding: 32px 20px; box-sizing: border-box;
+      background: var(--paper); box-shadow: 0 2px 0 rgba(40,25,10,.12); border-radius: 4px;
+    }
+  }
 </style>
 
 <script>

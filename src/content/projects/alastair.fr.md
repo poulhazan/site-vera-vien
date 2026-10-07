@@ -12,7 +12,7 @@ kicker: "Design de personnages"
 badgeLabel: "Alastair · Personnage original & fan art"
 coverImage: "/assets/images/projects/alastair/turnaround-kilt-color.jpg"
 coverPosition: "center 15%"
-shortDescription: "Projet de character design personnel : un même personnage, Alastair, exploré à travers trois styles graphiques distincts — cartoon façon Sabrina, l'apprentie sorcière, réaliste façon Marguerite Sauvage, et UPA façon Adventure Time."
+shortDescription: "Projet de design de personnage personnel : un même personnage, Alastair, exploré à travers trois styles graphiques distincts — cartoon façon Sabrina, l'apprentie sorcière, réaliste façon Marguerite Sauvage, et UPA façon Adventure Time."
 characterGroups:
   - name: "Cartoon — inspiré de Sabrina, l'apprentie sorcière"
     layout: "stacked"
@@ -38,4 +38,4 @@ externalLinks:
     url: "https://www.artstation.com/artwork/r9B9z2"
 ---
 
-Projet de character design personnel : un même personnage, Alastair, exploré à travers trois styles graphiques distincts — cartoon façon Sabrina, l'apprentie sorcière, réaliste façon Marguerite Sauvage, et UPA façon Adventure Time.
+Projet de design de personnage personnel : un même personnage, Alastair, exploré à travers trois styles graphiques distincts — cartoon façon Sabrina, l'apprentie sorcière, réaliste façon Marguerite Sauvage, et UPA façon Adventure Time.

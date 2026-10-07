@@ -9,7 +9,7 @@ category: "Illustration — Invitations & cartes"
 tags: ["Illustration jeunesse", "Personnage", "Lettrage", "Livre jeunesse", "Développement visuel"]
 featured: false
 order: 10
-kicker: "Personal Commission"
+kicker: "Commande personnelle"
 badgeLabel: "Anniversaire Jumeaux · Invitations & cartes"
 coverImage: "/assets/images/projects/anniversaire-jumeaux/decor-02.jpg"
 coverPosition: "center 42%"

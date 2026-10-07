@@ -9,7 +9,7 @@ category: "Animation — Série (HBO Max)"
 tags: ["Props", "FX", "Harmony", "Layout"]
 featured: true
 order: 1
-kicker: "Series Production"
+kicker: "Production de série"
 badgeLabel: "HOP! · Série d'animation — HBO Max"
 coverImage: "/assets/images/projects/hop/opening.jpg"
 coverPosition: "center 38%"
