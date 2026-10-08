@@ -2,9 +2,9 @@ import { defineConfig } from 'astro/config';
 import PinyAstro from '@pinegrow/piny-astro';
 
 // Deployed on Vercel (vercel.com, connected to this GitHub repo) with the
-// custom domain veravien.ca configured in the Vercel project settings.
+// custom domain veravien.com configured in the Vercel project settings.
 export default defineConfig({
-  site: 'https://veravien.ca',
+  site: 'https://veravien.com',
   trailingSlash: 'always',
 
   integrations: [PinyAstro()],
