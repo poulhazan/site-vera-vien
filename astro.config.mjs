@@ -1,19 +1,10 @@
 import { defineConfig } from 'astro/config';
 import PinyAstro from '@pinegrow/piny-astro';
 
-// ─────────────────────────────────────────────────────────────────────────
-// GitHub Pages configuration
-//
-// If you deploy to https://<user>.github.io/<repo>/  → keep `base` set to
-//   '/<repo>/' (replace <repo> with your actual repository name) and set
-//   `site` to your github.io URL.
-//
-// If you deploy to a custom domain (e.g. https://veravien.ca) via a CNAME
-//   file in /public → set `base` to '/' and `site` to your custom domain.
-// ─────────────────────────────────────────────────────────────────────────
+// Deployed on Vercel (vercel.com, connected to this GitHub repo) with the
+// custom domain veravien.ca configured in the Vercel project settings.
 export default defineConfig({
   site: 'https://veravien.ca',
-  base: '/',
   trailingSlash: 'always',
 
   integrations: [PinyAstro()],
